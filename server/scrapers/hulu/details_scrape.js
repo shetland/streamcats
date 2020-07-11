@@ -1,183 +1,133 @@
-const puppeteer = require('puppeteer');
-const fs = require('fs');
-const tvImportObj = require('../exports/raw_scrape/hulu/filteredTv.json');
-const movieImportObj = require('../exports/raw_scrape/hulu/filteredMovie.json');
+const puppeteer = require('puppeteer-core')
+const fs = require('fs')
 
-const tvKeys = Object.keys(tvImportObj)
-const movieKeys = Object.keys(movieImportObj)
+const detailScraper = {
+  run: () => {
+    console.log('Fetching title details...')
+    let newDetails = titleScraper.fetchDetails()
+    // Save in delta titles
+    console.log('Saving...')
+    fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
+    console.log('Details Saved!')
+  },
+  fetchDetails: async () => {
+    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
+    const context = await browser.createIncognitoBrowserContext()
+    const page = await context.newPage()
+    const newTitlesRaw = fs.readFileSync('../data/hulu/delta/titles/deltaTitles.json')
+    const newTitles = JSON.parse(newTitlesRaw)
+    let titlesWithDetails = []
 
-async function run() {
-    const browser = await puppeteer.launch({ headless: false});
-    const context = await browser.createIncognitoBrowserContext();
-    const page = await context.newPage();
-    
     await page.setViewport({
-        width: 300,
+        width: 600,
         height: 800
     });
 
-    let exportTvObj = {}
-    let exportMovieObj = {}
+    for (t=0;t<newTitles.length;t++) {
+      console.log ('On item: ', t)
+      try { 
+        let title = newTitles[t]
+        let detailedTitle = {}
+        let movieLink = 'https://www.hulu.com/movie/' + title.id
+        let tvLink = 'https://www.hulu.com/series/' + title.id
+        let realLink = ''
+        let type = ''
 
-    for (c=0;c<tvKeys.length;c++) { 
-        let currentGenre = tvKeys[c]
-        let currentArray = tvImportObj[currentGenre]
-        let currentLength = currentArray.length
-        console.log('On Tv Genre: ', currentGenre)
-
-        // For every item in the genre list
-        for (i=0;i<currentLength;i++) {
-            await page.goto(`${currentArray[i].href}`);
-            console.log('   On item: ', i)
-            let regex = /(?<=series\/).*/
-            let id = currentArray[i].href.match(regex)[0]
-            currentArray[i].id = id
-
-            // Set random page wait time from 1-2 seconds
-            let pageWait = Math.floor(Math.random() * 2) + 1;
-            await page.waitFor(pageWait*1000);
-
-            // await page.screenshot({ path: imagePath, type: 'jpeg', quality: 20, clip:{x:0,y:0,width:275,height:145}})
- 
-            let newObject = await page.evaluate(() => {
-                let header = ''
-                let rating = ''
-                let genreList = ''
-                let year = ''
-                let headerBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
-                if (headerBool){
-                    header = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`).innerText
-                }
-                if (header) {
-                    header = header.replace(/\s/g, '')
-                    let headerArr = header.split('•')
-                    rating = headerArr[0]
-                    genreList = headerArr[1].split(',')
-                    year = headerArr[headerArr.length-1]
-                }
-                let description = ''
-                let descriptionBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`) !== null
-                if (descriptionBool){
-                    description = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`).innerText
-                }
-
-                let starring = ''
-                // let starringBool = document.querySelector(`div.title-data-info-item:nth-child(1) > span:nth-child(2)`) !== null
-                // if (starringBool){
-                //     starring = document.querySelector(`div.title-data-info-item:nth-child(1) > span:nth-child(2)`).innerText
-                // }
-                let duration = ''
-                // let durationBool = document.querySelector(`.duration`) !== null
-                // if (durationBool){
-                //     duration = document.querySelector(`.duration`).innerText;
-                // }
-
-                return {
-                    'year': year,
-                    'rating': rating,
-                    'description': description,
-                    'starring': starring,
-                    'duration': duration,
-                    'genres': genreList
-                }
-
-            });
-
-            currentArray[i] = Object.assign(currentArray[i], newObject)
+        // Determine if title is a movie or tv show
+        await page.goto(movieLink)
+        let checkPage = await page.evaluate(() => {
+          let boolCheck = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
+          return boolCheck
+        })
+        if (checkPage) {
+          realLink = movieLink
+          type = 'movie'
+        } else {
+          await page.goto(tvLink)
+          realLink = tvLink
+          type = 'tv'
         }
-        // after the current array has been updated with the right details - save into the export object:
-        exportTvObj[currentGenre] = currentArray
-    }
 
-    // Save out the tv data
-    fs.writeFile('../../data/hulu/tv/tvData.json', JSON.stringify(exportTvObj), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+        // Log for testing:
+        console.log('  Correct title href: ', realLink)
 
-    // movieKeys.length - shortened for test
-    for (c=0;c<movieKeys.length;c++) { 
-        let currentGenre = movieKeys[c]
-        let currentArray = movieImportObj[currentGenre]
-        let currentLength = currentArray.length
-        console.log('On Movie Genre: ', currentGenre)
+        // Wait a bit
+        let pageWait = Math.floor(Math.random() * 2) + 1;
+        await page.waitFor(pageWait*1000);
 
-        // For every item in the genre list
-        for (i=0;i<currentLength;i++) {
-            await page.goto(`${currentArray[i].href}`);
-            console.log('   On item: ', i)
-            let regex = /(?<=movie\/).*/
-            let id = currentArray[i].href.match(regex)[0]
-            currentArray[i].id = id
+        // Grab the details
+        let newDetails = await page.evaluate(() => {
+          let header = ''
+          let rating = ''
+          let genreList = ''
+          let year = ''
+          let headerBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
+          if (headerBool){
+            header = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`).innerText
+          }
+          if (header) {
+            header = header.replace(/\s/g, '')
+            let headerArr = header.split('•')
+            rating = headerArr[0]
+            if (
+              rating === 'TV14' || 
+              rating === 'TVPG' || 
+              rating === 'TVMA' || 
+              rating === 'TVY7' || 
+              rating === 'TVY' || 
+              rating === 'TVG' || 
+              rating === 'PG' || 
+              rating === 'R' || 
+              rating === 'PG-13' || 
+              rating === 'G' || 
+              rating === 'NC-17'
+            ) {
+              rating = rating
+            } else {
+              rating = 'NR'
+            }
+            year = headerArr[headerArr.length-1]
+          }
+          let description = ''
+          let descriptionBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`) !== null
+          if (descriptionBool){
+            description = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`).innerText
+          }
+          let starring = ''
+          return {
+            'year': year,
+            'rating': rating,
+            'description': description,
+            'starring': starring,
+          }
+        })
 
-            // No images for faster loading times but may consider in future
-            // let imagePath = `../../public/thumbnails/hulu/movie/${id}.jpg`
-            // let imageSrc = `/thumbnails/hulu/tv/${id}.jpg`
-            // currentArray[i].imageSrc = imageSrc
-
-            let pageWait = Math.floor(Math.random() * 2) + 1;
-            await page.waitFor(pageWait*1000);
-            //await page.screenshot({ path: imagePath, type: 'jpeg', quality: 20, clip:{x:0,y:0,width:275,height:145}})
- 
-            let newObject = await page.evaluate(() => {
-                let header = ''
-                let rating = ''
-                let genreList = ''
-                let year = ''
-                let headerBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
-                if (headerBool){
-                    header = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`).innerText
-                }
-                if (header) {
-                    header = header.replace(/\s/g, '')
-                    let headerArr = header.split('•')
-                    rating = headerArr[0]
-                    genreList = headerArr[1].split(',')
-                    year = headerArr[headerArr.length-1]
-                }
-                let description = ''
-                let descriptionBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`) !== null
-                if (descriptionBool){
-                    description = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`).innerText
-                }
-
-                let starring = ''
-                // let starringBool = document.querySelector(`div.title-data-info-item:nth-child(1) > span:nth-child(2)`) !== null
-                // if (starringBool){
-                //     starring = document.querySelector(`div.title-data-info-item:nth-child(1) > span:nth-child(2)`).innerText
-                // }
-                let duration = ''
-                // let durationBool = document.querySelector(`.duration`) !== null
-                // if (durationBool){
-                //     duration = document.querySelector(`.duration`).innerText;
-                // }
-
-                return {
-                    'year': year,
-                    'rating': rating,
-                    'description': description,
-                    'starring': starring,
-                    'duration': duration,
-                    'genres': genreList
-                }
-
-            });
-
-            currentArray[i] = Object.assign(currentArray[i], newObject)
-            await page.waitFor(1*1000);
+        detailedTitle = {
+          "title": title.title,
+          "href": realLink,
+          "id": title.id,
+          "year": newDetails.year,
+          "rating": newDetails.rating,
+          "description": newDetails.description,
+          "starring":  "",
         }
-        // after the current array has been updated with the right details - save into the export object:
-        exportMovieObj[currentGenre] = currentArray
-    }
+        titlesWithDetails.push(detailedTitle)
 
-    // Save out the movie data
-    fs.writeFile('../../data/hulu/movie/movieData.json', JSON.stringify(exportMovieObj), function (err) {
-        if (err) throw err;
-        console.log('Saved!');
-    });
+        // Save running list
+        fs.writeFile('../data/hulu/delta/details/deltaDetails_running.json', JSON.stringify(titlesWithDetails), function (err) {
+          if (err) throw err
+        })
 
+      } catch (err) {
+        console.log('Error: ', err)
+      }
+    } 
     browser.close();
-    console.log('finished');
+    console.log('Finished fetching details...')
+
+    return titlesWithDetails
+  }
+
 }
 
-run();
+module.exports = detailScraper

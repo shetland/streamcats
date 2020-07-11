@@ -1,16 +1,35 @@
 const fs = require('fs')
-const titleScraper = require('./titles_scrape.js')
-const genreConfig = require('./genre_config.js')
-const detailsScraper = require('./details_scrape.js')
-const ratingsScraper = require('./ratings_scrape_ddgo.js')
-const compKeys = require('../../encrypt/tools/compkeys.js')
+// const titleScraper = require('./titles_scrape.js')
+const deltaFinder = require('./delta_finder.js')
+const detailScraper = require('./details_scrape.js')
+// const genreConfig = require('./genre_config.js')
+// const detailsScraper = require('./details_scrape.js')
+// const ratingsScraper = require('./ratings_scrape_ddgo.js')
+// const compKeys = require('../../encrypt/tools/compkeys.js')
 
 
-// Step 1. Scrap the titles/structure from the streaming service and close the browser - done for test already
 
-// Step 2. Configure the genre graph - and save into the titles folder
+function main() {
+  // 1. Scrap the titles/structure from the streaming service and close the browser - done for test already
+  // titleScraper.run()
 
-// Step 3. Populate the title structure with titles from the lib and save unknown titles into the delta folder
+  // 2. Find all unknown titles and save into the delta folder
+  console.log('Getting Hulu titles delta...')
+  deltaFinder.run()
+
+  console.log('Fetching new title details...')
+  detailScraper.run()
+
+}
+
+main()
+
+
+
+
+// Step 2. Configure the genre graph - and save into the titles folder - should be end
+
+
 
 // Step 4. Fetch the new title details with a details scrape, get hrefs for hulu, and save in details delta folder
 
