@@ -15,7 +15,7 @@ const huluPk = mp.encode({"movies":hmdComp, "tv":htdComp})
 const netflixPk = mp.encode({"movies":nmdComp, "tv":ntdComp})
 
 router.get("/api", function(req, res){
-  connector.saveConnections(req.connection.remoteAddress)
+  // connector.saveConnections(req.connection.remoteAddress)
 	console.log('Got request from: ', req.connection.remoteAddress)
 	if (req.query.cats === "mlk") {
 		res.send(keyPk)
@@ -41,7 +41,7 @@ router.get("/api/:cat", function(req,res){
 });
 
 router.get("/api/cat/picks", function(req,res){
-  connector.saveConnections(req.connection.remoteAddress)
+  // connector.saveConnections(req.connection.remoteAddress)
 	console.log("Got request from: ", req.connection.remoteAddress)
 	res.send(picks)
 });
