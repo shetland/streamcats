@@ -2,23 +2,27 @@ const fs = require('fs')
 // const titleScraper = require('./titles_scrape.js')
 const deltaFinder = require('./delta_finder.js')
 const detailScraper = require('./details_scrape.js')
+const ratingScraper = require('./ratings_scrape.js')
 // const genreConfig = require('./genre_config.js')
-// const detailsScraper = require('./details_scrape.js')
-// const ratingsScraper = require('./ratings_scrape_ddgo.js')
 // const compKeys = require('../../encrypt/tools/compkeys.js')
 
 
 
 function main() {
   // 1. Scrap the titles/structure from the streaming service and close the browser - done for test already
+  // console.log('Getting all Hulu titles...')
   // titleScraper.run()
 
   // 2. Find all unknown titles and save into the delta folder
-  console.log('Getting Hulu titles delta...')
-  deltaFinder.run()
 
-  console.log('Fetching new title details...')
-  detailScraper.run()
+  // console.log('Getting new titles delta...')
+  // deltaFinder.run()
+
+  // console.log('Fetching new title details...')
+  // detailScraper.run()
+
+  console.log('Fetching new title ratings...')
+  ratingScraper.run()
 
 }
 

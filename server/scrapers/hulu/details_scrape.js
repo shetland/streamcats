@@ -3,22 +3,26 @@ const fs = require('fs')
 
 const detailScraper = {
   run: async () => {
-    console.log('Fetching...')
+    console.log('Fetching details...')
     let newDetails = await detailScraper.fetchDetails()
-    // Save in delta details
-    console.log('Saving...')
     let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
+
+    console.log('Saving...')
     fs.writeFile(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
       if (err) throw err
-      console.log('Archived delta!')
+      console.log('Archived details delta!')
     })
-    fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
-    console.log('Details Saved!')
+    try{
+      fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
+      console.log('Saved details delta!')
+    } catch (err) {
+      // throw error to stop execution if not saved
+      if (err) throw err
+    }
   },
   fetchDetails: async () => {
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
-    const context = await browser.createIncognitoBrowserContext()
-    const page = await context.newPage()
+    const page = await browser.newPage()
     const newTitlesRaw = fs.readFileSync('../data/hulu/delta/titles/deltaTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
     let titlesWithDetails = []
@@ -52,9 +56,6 @@ const detailScraper = {
           realLink = tvLink
           type = 'tv'
         }
-
-        // Log for testing:
-        console.log('  Correct title href: ', realLink)
 
         // Wait a bit
         let pageWait = Math.floor(Math.random() * 2) + 1;
