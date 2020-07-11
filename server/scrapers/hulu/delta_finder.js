@@ -8,8 +8,13 @@ const deltaFinder = {
     // Get delta
     const delta = deltaFinder.getDelta(newTitles)
     console.log('Found: ', delta.length, ' new titles')
-    // Save in delta titles
+    // Save in delta titles and dated backup
     console.log('Saving...')
+    let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
+    fs.writeFile(`../data/hulu/delta/titles/archive/deltaTitles_${dateStr}.json`, JSON.stringify(delta), function (err) {
+      if (err) throw err
+      console.log('Archived delta!')
+    })
     fs.writeFileSync('../data/hulu/delta/titles/deltaTitles.json', JSON.stringify(delta))
     console.log('Delta Saved!')
   },

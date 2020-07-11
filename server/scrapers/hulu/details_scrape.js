@@ -4,9 +4,14 @@ const fs = require('fs')
 const detailScraper = {
   run: () => {
     console.log('Fetching title details...')
-    let newDetails = titleScraper.fetchDetails()
+    let newDetails = detailScraper.fetchDetails()
     // Save in delta titles
     console.log('Saving...')
+    let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
+    fs.writeFile(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
+      if (err) throw err
+      console.log('Archived delta!')
+    })
     fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
     console.log('Details Saved!')
   },
