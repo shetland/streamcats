@@ -3,9 +3,9 @@ const fs = require('fs')
 
 const detailScraper = {
   run: () => {
-    console.log('Fetching title details...')
-    let newDetails = detailScraper.fetchDetails()
-    // Save in delta titles
+    console.log('Fetching...')
+    let newDetails = await detailScraper.fetchDetails()
+    // Save in delta details
     console.log('Saving...')
     let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
     fs.writeFile(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
@@ -41,7 +41,7 @@ const detailScraper = {
         // Determine if title is a movie or tv show
         await page.goto(movieLink)
         let checkPage = await page.evaluate(() => {
-          let boolCheck = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
+          let boolCheck = document.querySelector(`.DetailEntityMasthead__tags`) !== null
           return boolCheck
         })
         if (checkPage) {
@@ -66,9 +66,9 @@ const detailScraper = {
           let rating = ''
           let genreList = ''
           let year = ''
-          let headerBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`) !== null
+          let headerBool = document.querySelector(`.DetailEntityMasthead__tags`) !== null
           if (headerBool){
-            header = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > div`).innerText
+            header = document.querySelector(`.DetailEntityMasthead__tags`).innerText
           }
           if (header) {
             header = header.replace(/\s/g, '')
@@ -94,9 +94,9 @@ const detailScraper = {
             year = headerArr[headerArr.length-1]
           }
           let description = ''
-          let descriptionBool = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`) !== null
+          let descriptionBool = document.querySelector(`.DetailEntityMasthead__description`) !== null
           if (descriptionBool){
-            description = document.querySelector(`#description-modal > div.jsx-3640661505.description-modal.modal-dialog.modal > div.jsx-3640661505.modal--body > div > p`).innerText
+            description = document.querySelector(`.DetailEntityMasthead__description`).innerText
           }
           let starring = ''
           return {
