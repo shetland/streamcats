@@ -2,7 +2,7 @@ const puppeteer = require('puppeteer-core')
 const fs = require('fs')
 
 const detailScraper = {
-  run: () => {
+  run: async () => {
     console.log('Fetching...')
     let newDetails = await detailScraper.fetchDetails()
     // Save in delta details
