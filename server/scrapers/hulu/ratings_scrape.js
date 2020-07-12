@@ -12,6 +12,11 @@ const ratingScraper = {
       if (err) throw err
       console.log('Archived ratings delta!')
     })
+    // todo: After save, reset the running filessss
+    // fs.writeFile(`../data/hulu/delta/ratings/archive/deltaRatings_running.json`, JSON.stringify([]), function (err) {
+    //   if (err) throw err
+    //   console.log('Reset running ratings file!')
+    // })
     try {
       fs.writeFileSync('../data/hulu/delta/ratings/deltaRatings.json', JSON.stringify(newRatings))
       console.log('Saved ratings delta!')
@@ -25,9 +30,14 @@ const ratingScraper = {
     const page = await browser.newPage()
     const newTitlesRaw = fs.readFileSync('../data/hulu/delta/details/deltaDetails.json')
     const newTitles = JSON.parse(newTitlesRaw)
-    let titlesWithRatings = []
+    // const currentRatingsRaw = fs.readFileSync('../data/hulu/delta/ratings/deltaRatings_running.json')
+    // const currentRatingsList = JSON.parse(currentRatingsRaw)
+    // let titlesWithRatings = currentRatingsList
+
+    // todo: import running errors and issues in case of a crash
     let ratingIssues = []
     let ratingErrors = []
+    let titlesWithRatings = []
 
     await page.setViewport({
         width: 600,
@@ -36,78 +46,79 @@ const ratingScraper = {
 
     for (t=0;t<newTitles.length;t++) {
       console.log ('On item: ', t)
-      try { 
-        let title = newTitles[t]
+      let title = newTitles[t]
 
-        // hulu specific check
-        let titleType = ''
-        let link = title.href
-        if (link.includes('/series/')){
-          titleType = 'series'
-        }
-        if (link.includes('/movie/')){
-          titleType = 'movie'
-        }
-
-        let titleName = title.title
-        let searchName = titleName.replace(/ *\([^)]*\) */g, "");
-        let searchStr = searchName + ' (' + title.year + ') ' + titleType + ' imdb' 
-        let searchNameLC = searchName.toLowerCase()
-        let searchNameRegex = new RegExp(searchNameLC, 'g')
-
-        await page.goto(`https://duckduckgo.com/`)
-        await page.focus('#search_form_input_homepage')
-        await page.keyboard.type(searchStr)
-        await page.waitFor(1000);
-        await page.keyboard.press('Enter')
-        await page.waitForNavigation()
-        await page.waitFor(1000)
-
-        let imdbLink = await page.evaluate(() => {
-          let link = 'https://duckduckgo.com/'
-          let found = document.querySelector('#r1-0 > div > h2 > a.result__a').href
-          if (found) {
-            link = found
+      if ( !currentRatingsList.some((ct) => { return ct.href === title.href }) ) {
+        try { 
+          // hulu specific check
+          let titleType = ''
+          let link = title.href
+          if (link.includes('/series/')){
+            titleType = 'series'
           }
-          return link
-        })
+          if (link.includes('/movie/')){
+            titleType = 'movie'
+          }
 
-        page.goto(imdbLink, {waitUntil:'domcontentloaded'})
-        await page.waitFor(3000)
+          let titleName = title.title
+          let searchName = titleName.replace(/ *\([^)]*\) */g, "");
+          let searchStr = searchName + ' (' + title.year + ') ' + titleType + ' imdb' 
+          let searchNameLC = searchName.toLowerCase()
+          let searchNameRegex = new RegExp(searchNameLC, 'g')
 
-        let imdbTitle = await page.evaluate(() => {
-          let str = ''
-          let selector = '#title-overview-widget > div.vital > div.title_block > div > div.titleBar > div.title_wrapper > h1'
-          let titleBool = document.querySelector(selector) !== null
-          if (titleBool) {
-            let found = document.querySelector(selector).innerText
+          await page.goto(`https://duckduckgo.com/`)
+          await page.focus('#search_form_input_homepage')
+          await page.keyboard.type(searchStr)
+          await page.waitFor(1000);
+          await page.keyboard.press('Enter')
+          await page.waitForNavigation()
+          await page.waitFor(1000)
+
+          let imdbLink = await page.evaluate(() => {
+            let link = 'https://duckduckgo.com/'
+            let found = document.querySelector('#r1-0 > div > h2 > a.result__a').href
             if (found) {
-              str = found
+              link = found
             }
-          }
-          return str
-        })
+            return link
+          })
 
-        let imdbScore = await page.evaluate(() => {
-            let score = 0
-            let selector = 'span[itemprop="ratingValue"]'
-            let scoreBool = document.querySelector(selector) !== null
-            if (scoreBool) {
-              let scoreText = document.querySelector(selector).innerText
-              let scoreOnItem = parseFloat(scoreText)
-              if (scoreOnItem) {
-                score = scoreOnItem
+          page.goto(imdbLink, {waitUntil:'domcontentloaded'})
+          await page.waitFor(2500)
+
+          let imdbTitle = await page.evaluate(() => {
+            let str = ''
+            let selector = '#title-overview-widget > div.vital > div.title_block > div > div.titleBar > div.title_wrapper > h1'
+            let titleBool = document.querySelector(selector) !== null
+            if (titleBool) {
+              let found = document.querySelector(selector).innerText
+              if (found) {
+                str = found
               }
             }
-            return score
-        })
+            return str
+          })
 
-        let checkObj = {}
-        let checkTitle = imdbTitle.toLowerCase()
+          let imdbScore = await page.evaluate(() => {
+              let score = 0
+              let selector = 'span[itemprop="ratingValue"]'
+              let scoreBool = document.querySelector(selector) !== null
+              if (scoreBool) {
+                let scoreText = document.querySelector(selector).innerText
+                let scoreOnItem = parseFloat(scoreText)
+                if (scoreOnItem) {
+                  score = scoreOnItem
+                }
+              }
+              return score
+          })
 
-        if(checkTitle.match(searchNameRegex)) {
+          let checkObj = {}
+          let checkTitle = imdbTitle.toLowerCase()
+
+          if(checkTitle.match(searchNameRegex)) {
             console.log('Found: ', imdbTitle, ' Matches: ', searchName)
-        } else {
+          } else {
             console.log(imdbTitle, ' does NOT match: ', searchName)
             checkObj.title = title.title
             checkObj.href = title.href
@@ -115,46 +126,59 @@ const ratingScraper = {
             checkObj.imdbTitle = imdbTitle
             checkObj.imdbHref = imdbLink
             ratingIssues.push(checkObj)
+            // Save running issues list
+            fs.writeFile('../data/hulu/delta/ratings/ratingIssues_running.json', JSON.stringify(ratingIssues), function (err) {
+              if (err) throw err
+            })
+          }
+
+          if (imdbScore) {
+              console.log('       Score: ', imdbScore)
+              title.imdbScore = imdbScore.toFixed(1)
+          } else {
+              console.log('       Score not available')
+              title.imdbScore = 'N/A'
+          }
+
+          if (imdbTitle) {
+            title.imdbHref = imdbLink
+          } else {
+            title.imdbHref = ''
+          }
+
+          titlesWithRatings.push(title)
+          // Save running ratings list
+          fs.writeFile('../data/hulu/delta/ratings/deltaRatings_running.json', JSON.stringify(titlesWithRatings), function (err) {
+            if (err) throw err
+          })
+
+          await page.waitFor(1000)
+
+        } catch (err) {
+          console.log('Error on: ', title.title)
+          console.log(err)
+          err = err.substring(0,300)
+          ratingErrors.push({ "title": title.title, "href": title.href, "year": title.year, "id": title.id, "error": err })
+          // Save running errors list
+          fs.writeFile('../data/hulu/delta/ratings/ratingErrors_running.json', JSON.stringify(ratingIssues), function (err) {
+            if (err) throw err
+          })
+
         }
 
-        if (imdbScore) {
-            console.log('       Score: ', imdbScore)
-            title.imdbScore = imdbScore.toFixed(1)
-        } else {
-            console.log('       Score not available')
-            title.imdbScore = 'N/A'
-        }
-
-        if (imdbTitle) {
-          title.imdbHref = imdbLink
-        } else {
-          title.imdbHref = ''
-        }
-
-        titlesWithRatings.push(title)
-
-        // Save running list
-        fs.writeFile('../data/hulu/delta/ratings/deltaRatings_running.json', JSON.stringify(titlesWithRatings), function (err) {
-          if (err) throw err
-        })
-
-        await page.waitFor(1000)
-
-      } catch (err) {
-        console.log('Error on: ', title.title)
-        console.log(err)
-        err = err.substring(0,300)
-        movieErrors.push({ "title": title.title, "href": title.href, "year": title.year, "id": title.id, "error": err })
+      } else {
+        console.log(' Already have rating - skipping...')
       }
+
     }
 
     try {
-      // save issue list
+      // save final issues list
       fs.writeFile(`../data/hulu/delta/ratings/archive/ratingIssues_${dateIn}.json`, JSON.stringify(ratingIssues), function (err) {
         if (err) throw err;
         console.log('Saved rating issues!');
       })
-      // save error list
+      // save final errors list
       fs.writeFile(`../data/hulu/delta/ratings/archive/ratingErrors_${dateIn}.json`, JSON.stringify(ratingErrors), function (err) {
         if (err) throw err;
         console.log('Saved rating errors!');
@@ -162,6 +186,7 @@ const ratingScraper = {
     } catch (err) {
       console.log('Save Error: ', err)
     }
+    
 
     browser.close();
     console.log('Finished fetching ratings...')
