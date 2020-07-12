@@ -61,7 +61,7 @@ const ratingScraper = {
       console.log ('On item: ', t)
       let title = newTitles[t]
 
-      if ( !titlesWithRatings.some((ct) => { return ct.href === title.href }) ) {
+      if ( !titlesWithRatings.some((t) => { return t.href === title.href }) ) {
         try { 
           // hulu specific check
           let titleType = ''
@@ -202,7 +202,6 @@ const ratingScraper = {
     } catch (err) {
       console.log('Save Error: ', err)
     }
-    
 
     browser.close();
     console.log('Finished fetching ratings...')
