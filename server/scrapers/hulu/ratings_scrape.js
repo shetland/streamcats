@@ -8,20 +8,31 @@ const ratingScraper = {
     let newRatings = await ratingScraper.fetchRatings(dateStr)
     
     console.log('Saving...')
-    fs.writeFile(`../data/hulu/delta/ratings/archive/deltaRatings_${dateStr}.json`, JSON.stringify(newRatings), function (err) {
-      if (err) throw err
-      console.log('Archived ratings delta!')
-    })
-    // todo: After save, reset the running filessss
-    // fs.writeFile(`../data/hulu/delta/ratings/archive/deltaRatings_running.json`, JSON.stringify([]), function (err) {
-    //   if (err) throw err
-    //   console.log('Reset running ratings file!')
-    // })
     try {
       fs.writeFileSync('../data/hulu/delta/ratings/deltaRatings.json', JSON.stringify(newRatings))
       console.log('Saved ratings delta!')
+
+      fs.writeFile(`../data/hulu/delta/ratings/archive/deltaRatings_${dateStr}.json`, JSON.stringify(newRatings), function (err) {
+        if (err) throw err
+        console.log('Archived ratings delta!')
+      })
+      // After save, reset the running files to empty lists
+      fs.writeFile(`../data/hulu/delta/ratings/deltaRatings_running.json`, JSON.stringify([]), function (err) {
+        if (err) throw err
+        console.log('Reset running ratings file!')
+      })
+      fs.writeFile(`../data/hulu/delta/ratings/ratingIssues_running..json`, JSON.stringify([]), function (err) {
+        if (err) throw err
+        console.log('Reset running issues file!')
+      })
+      fs.writeFile(`../data/hulu/delta/ratings/ratingErrors_running..json`, JSON.stringify([]), function (err) {
+        if (err) throw err
+        console.log('Reset running errors file!')
+      })
+
     } catch (err) {
       // throw error to stop execution if not saved
+      console.log(err)
       if (err) throw err
     }
   },
@@ -30,14 +41,16 @@ const ratingScraper = {
     const page = await browser.newPage()
     const newTitlesRaw = fs.readFileSync('../data/hulu/delta/details/deltaDetails.json')
     const newTitles = JSON.parse(newTitlesRaw)
-    // const currentRatingsRaw = fs.readFileSync('../data/hulu/delta/ratings/deltaRatings_running.json')
-    // const currentRatingsList = JSON.parse(currentRatingsRaw)
-    // let titlesWithRatings = currentRatingsList
 
-    // todo: import running errors and issues in case of a crash
-    let ratingIssues = []
-    let ratingErrors = []
-    let titlesWithRatings = []
+    // load the data from running files in case of a crash / restart
+    const currentRatingsRaw = fs.readFileSync('../data/hulu/delta/ratings/deltaRatings_running.json')
+    let titlesWithRatings = JSON.parse(currentRatingsRaw)
+
+    const ratingIssuesRaw = fs.readFileSync('../data/hulu/delta/ratings/ratingIssues_running.json')
+    let ratingIssues = JSON.parse(ratingIssuesRaw)
+
+    const ratingErrorsRaw = fs.readFileSync('../data/hulu/delta/ratings/ratingErrors_running.json')
+    let ratingErrors = JSON.parse(ratingErrorsRaw)
 
     await page.setViewport({
         width: 600,
@@ -75,16 +88,20 @@ const ratingScraper = {
           await page.waitFor(1000)
 
           let imdbLink = await page.evaluate(() => {
-            let link = 'https://duckduckgo.com/'
-            let found = document.querySelector('#r1-0 > div > h2 > a.result__a').href
-            if (found) {
-              link = found
+            let link = ''
+            let selector = '#r1-0 > div > h2 > a.result__a'
+            let hrefBool = document.querySelector(selector) !== null
+            if (hrefBool) {
+              let found = document.querySelector(selector).href
+              if (found) {
+                link = found
+              }
             }
             return link
           })
 
           page.goto(imdbLink, {waitUntil:'domcontentloaded'})
-          await page.waitFor(2500)
+          await page.waitFor(3500)
 
           let imdbTitle = await page.evaluate(() => {
             let str = ''
@@ -157,10 +174,9 @@ const ratingScraper = {
         } catch (err) {
           console.log('Error on: ', title.title)
           console.log(err)
-          err = err.substring(0,300)
-          ratingErrors.push({ "title": title.title, "href": title.href, "year": title.year, "id": title.id, "error": err })
+          ratingErrors.push({ "title": title.title, "href": title.href, "year": title.year, "id": title.id})
           // Save running errors list
-          fs.writeFile('../data/hulu/delta/ratings/ratingErrors_running.json', JSON.stringify(ratingIssues), function (err) {
+          fs.writeFile('../data/hulu/delta/ratings/ratingErrors_running.json', JSON.stringify(ratingErrors), function (err) {
             if (err) throw err
           })
 
