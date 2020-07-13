@@ -140,6 +140,7 @@ const ratingScraper = {
             checkObj.title = title.title
             checkObj.href = title.href
             checkObj.id = title.id
+            checkObj.year = title.year
             checkObj.imdbTitle = imdbTitle
             checkObj.imdbHref = imdbLink
             ratingIssues.push(checkObj)
@@ -179,7 +180,6 @@ const ratingScraper = {
           fs.writeFile('../data/hulu/delta/ratings/ratingErrors_running.json', JSON.stringify(ratingErrors), function (err) {
             if (err) throw err
           })
-
         }
 
       } else {
