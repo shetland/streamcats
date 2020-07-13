@@ -21,11 +21,11 @@ const ratingScraper = {
         if (err) throw err
         console.log('Reset running ratings file!')
       })
-      fs.writeFile(`../data/hulu/delta/ratings/ratingIssues_running..json`, JSON.stringify([]), function (err) {
+      fs.writeFile(`../data/hulu/delta/ratings/ratingIssues_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
         console.log('Reset running issues file!')
       })
-      fs.writeFile(`../data/hulu/delta/ratings/ratingErrors_running..json`, JSON.stringify([]), function (err) {
+      fs.writeFile(`../data/hulu/delta/ratings/ratingErrors_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
         console.log('Reset running errors file!')
       })
