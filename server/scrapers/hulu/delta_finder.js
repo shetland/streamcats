@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const deltaFinder = {
-  run: () => {
+  run: async () => {
     // Get new titles
     const newTitlesRaw = fs.readFileSync('../data/hulu/titles/huluTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)

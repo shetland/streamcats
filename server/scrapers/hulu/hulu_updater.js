@@ -4,19 +4,19 @@ const deltaFinder = require('./delta_finder.js')
 const detailScraper = require('./details_scrape.js')
 const ratingScraper = require('./ratings_scrape.js')
 
-function main() {
+async function main() {
 
   console.log('Getting all Hulu titles...')
-  titleScraper.run()
+  await titleScraper.run()
 
   console.log('Getting new titles delta...')
-  deltaFinder.run()
+  await deltaFinder.run()
 
   console.log('Fetching new title details...')
-  detailScraper.run()
+  await detailScraper.run()
 
   console.log('Fetching new title ratings...')
-  ratingScraper.run()
+  await ratingScraper.run()
 
   // Verify data before running cat_updater
 }
