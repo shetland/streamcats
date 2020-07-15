@@ -6,6 +6,7 @@ const deltaFinder = {
     const newTitlesRaw = fs.readFileSync('../data/hulu/titles/huluTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
     const delta = deltaFinder.getDelta(newTitles)
+    const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
 
     console.log('Found: ', delta.length, ' new titles')
     // Save in delta titles and dated backup
@@ -14,7 +15,6 @@ const deltaFinder = {
       fs.writeFileSync('../data/hulu/delta/titles/deltaTitles.json', JSON.stringify(delta))
       console.log('Delta Saved!')
 
-      let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
       fs.writeFile(`../data/hulu/delta/titles/archive/deltaTitles_${dateStr}.json`, JSON.stringify(delta), function (err) {
         if (err) throw err
         console.log('Archived delta!')

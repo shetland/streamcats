@@ -127,9 +127,8 @@ const titleScraper = {
             for (j=0;j<titlesOnPageList.length;j++){
                 genreHuluList.push(titlesOnPageList[j])
             }
-
-            // Set random page wait time from 2-4 seconds
-            let pageWait = Math.floor(Math.random() * 3) + 2;
+            // Set random page wait time from 2-3 seconds
+            let pageWait = Math.floor(Math.random() * 2) + 2;
             await page.waitFor(pageWait*1000);
 
             // click to the next page
@@ -137,7 +136,6 @@ const titleScraper = {
             await page.click(btnSelector)
             pageCounter++
           }
-
           console.log('Exited button clicking loop\n\n')
 
           // filter array for only unique titles in genre
@@ -146,7 +144,6 @@ const titleScraper = {
               t.id === item.id
             ))
           )
-
           // save into th hulu objects
           runningTitles[currentGenre] = filteredHuluList
 
@@ -164,13 +161,10 @@ const titleScraper = {
             console.log('Save error: ', err)
           })
         }
-
       } else {
         console.log(' Already have genre - skipping...')
       }
-
     }
-
     // Save archive of final errors file
     fs.writeFile(`../data/hulu/titles/archive/titleErrors_${dateIn}.json`, JSON.stringify(titleErrors), function (err) {
       console.log('Save error: ', err)
@@ -194,8 +188,9 @@ const titleScraper = {
     await page.waitFor(5*1000)
     await page.click('#__next > div > div > div.Modal__dialog.Modal__dialog--visible > div.ProfileSelectorModal__bottom.cu-profileselectormodal-bottom > div > div:nth-child(3) > button')
     await page.waitForNavigation()
-    await page.waitFor(3*1000)
+    await page.waitFor(5*1000)
     await page.click('.WelcomeModal__cta') // close annoying popup
+    await page.waitFor(3*1000)
   },
   getGenres: async (page) => {
     let genreLinks = await page.evaluate(()=>{
