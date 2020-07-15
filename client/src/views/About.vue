@@ -25,7 +25,7 @@
             Hem-and-haw is snoring on the loveseat. The popcorn is gone. Everyone is looking at you to make
             any decision. Finally, you panic and randomly put on 
             <a target='_blank' href="https://www.imdb.com/title/tt2467046/reviews">a hauntingly bad Nicholas Cage movie</a>
-            that assaults everything you once believed Cage and leaves everyone deeply confused and unsettled.
+            that assaults everything you once believed about Cage and leaves everyone deeply confused and unsettled.
           </p>
           <p class="starDivider">*  *  *  *  *  *  *  *  *  *  *  *</p>
           <div>

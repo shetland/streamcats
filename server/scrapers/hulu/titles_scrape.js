@@ -186,15 +186,16 @@ const titleScraper = {
     await page.goto(`https://auth.hulu.com/web/login`)
     await page.focus('#email_id')
     await page.keyboard.type('ellynkeith@gmail.com')
-    await page.waitFor(1*1000);
+    await page.waitFor(1*1000)
     await page.focus('#password_id')
     await page.keyboard.type('3rnieM@tilda')
-    await page.waitFor(2*1000);
+    await page.waitFor(2*1000)
     await page.click('#__next > div > div > div.jsx-2318525612.login-dialog > div.jsx-2318525612.login-panel > div.jsx-1761454348.hulu-login > button') 
-    await page.waitFor(5*1000);
+    await page.waitFor(5*1000)
     await page.click('#__next > div > div > div.Modal__dialog.Modal__dialog--visible > div.ProfileSelectorModal__bottom.cu-profileselectormodal-bottom > div > div:nth-child(3) > button')
     await page.waitForNavigation()
-    await page.waitFor(6000*1000) // long wait to debug weirdass popups - will change
+    await page.waitFor(3*1000)
+    await page.click('.WelcomeModal__cta') // close annoying popup
   },
   getGenres: async (page) => {
     let genreLinks = await page.evaluate(()=>{

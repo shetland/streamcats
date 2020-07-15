@@ -1,5 +1,5 @@
 const genreConfig = require('./genre_config.js')
-const libUpdater = require('./genre_config.js')
+// const libUpdater = require('./genre_config.js')
 // const compKeys = require('../../encrypt/tools/compkeys.js')
 
 function main() {
@@ -7,8 +7,8 @@ function main() {
   console.log('Configuring title genres...')
   genreConfig.run()
 
-  console.log('Getting new titles delta...')
-  libUpdater.run()
+  // console.log('Getting new titles delta...')
+  // libUpdater.run()
 
   // console.log('Fetching new title details...')
   // detailScraper.run()

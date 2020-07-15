@@ -115,9 +115,9 @@ const detailScraper = {
               year = headerArr[headerArr.length-1]
             }
             let description = ''
-            let descriptionBool = document.querySelector(`.DetailEntityMasthead__description`) !== null
+            let descriptionBool = document.querySelector(".DetailEntityModal__description") !== null
             if (descriptionBool){
-              description = document.querySelector(`.DetailEntityMasthead__description`).innerText
+              description = document.querySelector(".DetailEntityModal__description").innerText
             }
             let starring = ''
             return {
@@ -155,7 +155,7 @@ const detailScraper = {
         }
 
       } else {
-        console.log(' Already have rating - skipping...')
+        console.log(' Already have details - skipping...')
       }
 
     }

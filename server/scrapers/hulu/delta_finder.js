@@ -40,7 +40,6 @@ const deltaFinder = {
         genreArray.forEach((title) => {
           // See if title is in lib and save into delta
           if(!titleLib[title.id]) {
-            title.id = realId
             deltaTitles.push(title)
           }
         })
