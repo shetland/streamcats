@@ -128,8 +128,8 @@ const titleScraper = {
                 genreHuluList.push(titlesOnPageList[j])
             }
             // Set random page wait time from 2-3 seconds
-            let pageWait = Math.floor(Math.random() * 2) + 2;
-            await page.waitFor(pageWait*1000);
+            // let pageWait = Math.floor(Math.random() * 2) + 2;
+            await page.waitFor(1000);
 
             // click to the next page
             let btnSelector = `.Hub__collection:nth-child(${azRowIndex + 1}) > div > div[data-testid="slider"] > button[data-testid="slider-next"]`

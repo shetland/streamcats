@@ -25,6 +25,9 @@ const libUpdate = {
       fs.writeFileSync('../data/hulu/current/tvData.json', JSON.stringify(tvTitles))
       console.log('Tv data saved!')
 
+      fs.writeFileSync('../data/hulu/lib/hulu_lib.json', JSON.stringify(updatedLib))
+      console.log('Library updated!')
+
       // Archive tv and movie data
       fs.writeFile(`../data/hulu/current/archive/movieData_${dateStr}.json`, JSON.stringify(movieTitles), function (err) {
         if (err) throw err
