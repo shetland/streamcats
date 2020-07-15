@@ -11,15 +11,13 @@ export default new Vuetify({
         primary:'#222',
         head: '#fff',
         shadow: '#888',
-        title: '#999',
-        text: '#222'
+        title: '#bbb'
       },
       dark: {
         primary: '#fff',
         head: '#aaa',
         shadow: '#000',
-        title: '#000',
-        text: '#FFF'
+        title: '#000'
       }
     },
     options: {

@@ -475,7 +475,7 @@ export default {
   }
   .bottomPad {
     width:100%;
-    height: 200px;
+    height: 120px;
   }
   .catHead {
     filter: drop-shadow(0px 1px 2px var(--v-shadow-base));

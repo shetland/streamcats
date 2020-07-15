@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+  <div class="text-center allText">
     <router-link v-if='homeLink' to='/'>
       <cat-head-color class="colorCat">
       </cat-head-color>
@@ -26,6 +26,12 @@
     <p class="subText">
       Brett Hiebert © 2020
     </p>
+    <!-- <br>
+    <br>
+    <br>
+    <p class="subText">
+      Pssst - if you want to support StreamCats (and get exclusive content and swag) you can <a href=""> check us out on Patreon</a>
+    </p> -->
     <div class='bottomPad'></div>
   </div>
 </template>
@@ -45,6 +51,9 @@ export default {
 </script>
 
 <style scoped>
+  .allText {
+    font-weight: 300;
+  }
   .socialLinks {
     margin: 14px;
     cursor: pointer;

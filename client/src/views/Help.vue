@@ -9,15 +9,15 @@
 
         <div v-for='(lesson, index) in lessons' :key='"l-"+ index'>
           <div class='lessonBtn addShadow' v-if='lessonIndex >= 6 && index === 6'>
-            <v-btn-toggle>
-              <v-btn min-width='30px' width="34px" small>0</v-btn>
-              <v-btn class="sortBtn" small>RATED</v-btn>
-              <v-btn class="sortBtn" small>NAME</v-btn>
-              <v-btn class="sortBtn" small>IMDB</v-btn>
-              <v-btn class="sortBtn" small>YEAR</v-btn>
-              <v-btn min-width='30px' width='34px' class="sortBtn" small @click='sortDesc=!sortDesc'>
-                <v-icon small v-if='sortDesc'>mdi-menu-down</v-icon>
-                <v-icon small v-else>mdi-menu-up</v-icon>
+            <v-btn-toggle rounded>
+              <v-btn min-width='30px' width="44" height="36" small>1</v-btn>
+              <v-btn class="sortBtn" height="36" small>RATED</v-btn>
+              <v-btn class="sortBtn" height="36" small>NAME</v-btn>
+              <v-btn class="sortBtn" height="36" small>IMDB</v-btn>
+              <v-btn class="sortBtn" height="36" small>YEAR</v-btn>
+              <v-btn min-width='30px' width="40" height="36" class="sortBtn" small @click='sortDesc=!sortDesc'>
+                <v-icon small v-show='sortDesc'>mdi-chevron-down</v-icon>
+                <v-icon small v-show='!sortDesc'>mdi-chevron-up</v-icon>
               </v-btn>
             </v-btn-toggle>
             <div v-if='lessonIndex > 5'>
@@ -115,20 +115,16 @@
             <v-icon v-if='index < lessonIndex && index !==10'>mdi-menu-down</v-icon>
           </div>
         </div>
-        
       <br>
       <br>
       <br>
       <br>
       <br>
       <br>
-      <br>
-      <br>
-      
       </div>
       <div class="bottomPad" v-show="lessonIndex >= 1"></div>
       <bottom-links :homeLink='true' v-if='lessonIndex >= 1'>
-        <div>Issues?</div>
+        <div>Questions or issues?</div>
       </bottom-links>
     </v-container>
   </div>
@@ -235,10 +231,9 @@ export default {
       font-weight: 600;
   }
   .descText {
-      font-weight:400;
       padding-top:10px;
-      font-size: 14px;
       text-align: left;
+      line-height: normal;
   }
   .tagContainer.col {
       padding:0px;

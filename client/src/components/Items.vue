@@ -1,42 +1,57 @@
 <template>
   <div>
     <div>
-        <v-btn-toggle id='sortBar'>
-        <v-btn min-width='30px' width="34px" class="sortBtn"  small>{{items.length}}</v-btn>
-        <v-menu offset-y>
-          <template v-slot:activator='{ on, attrs }'>
-            <v-btn v-bind='attrs' v-on='on' class="sortBtn" small :color='onlyRated ? sortColor["rated"]:""'>
-              {{onlyRated || 'RATED'}}
-            </v-btn>
-          </template>
-          <v-list dense>
-            <v-list-item
-              v-for='(rating, index) in ratingsList'
-              :key='index'
-              @click='handleRating(rating)'
-            >
-              <v-list-item-content>{{ rating }}</v-list-item-content>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-        <v-btn class="sortBtn" small :color='sortBy.includes("title")? sortColor["name"]:""' @click='handleSort("title"); sortDesc=!sortDesc'>NAME</v-btn>
-        <v-btn class="sortBtn" small :color='sortBy.includes("imdbScore")? sortColor["imdb"]:""' @click='handleSort("imdbScore")'>IMDB</v-btn>
-        <v-btn class="sortBtn" small :color='sortBy.includes("year")? sortColor["year"]:""' @click='handleSort("year")'>YEAR</v-btn>
-        <v-btn min-width='30px' width='34px' class="sortBtn" small @click='sortDesc=!sortDesc'>
-          <v-icon small v-if='sortDesc'>mdi-menu-down</v-icon>
-          <v-icon small v-else>mdi-menu-up</v-icon>
-        </v-btn>
-        </v-btn-toggle>
+      <v-btn-toggle rounded class='sortBar'>
+      <v-btn min-width='30px' width="44px" height="36" class="sortBtn"  small>{{items.length}}</v-btn>
+      <v-menu offset-y>
+        <template v-slot:activator='{ on, attrs }'>
+          <v-btn v-bind='attrs' v-on='on' class="sortBtn" small height="36" :color='onlyRated ? sortColor["rated"]:""'>
+            {{onlyRated || 'RATED'}}
+          </v-btn>
+        </template>
+        <v-list dense>
+          <v-list-item
+            v-for='(rating, index) in ratingsList'
+            :key='index'
+            @click='handleRating(rating)'
+          >
+            <v-list-item-content>{{ rating }}</v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+      <v-btn class="sortBtn" small height="36" :color='sortBy.includes("title")? sortColor["name"]:""' @click='handleSort("title")'>NAME</v-btn>
+      <v-btn class="sortBtn" small height="36" :color='sortBy.includes("imdbScore")? sortColor["imdb"]:""' @click='handleSort("imdbScore")'>IMDB</v-btn>
+      <v-btn class="sortBtn" small height="36" :color='sortBy.includes("year")? sortColor["year"]:""' @click='handleSort("year")'>YEAR</v-btn>
+      <v-btn min-width="30" width="40" small height="36"   class="sortBtn"  @click='sortDesc=!sortDesc'>
+        <v-icon small v-show='sortDesc'>mdi-chevron-down</v-icon>
+        <v-icon small v-show='!sortDesc'>mdi-chevron-up</v-icon>
+      </v-btn>
+      </v-btn-toggle>
+      <!-- Search Bar - nice but really not important for browsing 
+      (if you know what you are looking for you can google it)
+      Might add in later depending on feedback
+      <div class='searchInput'>
+        <v-text-field
+          v-model='search'
+          rounded
+          height="38"
+          solo
+          flat
+          dense
+          placeholder="Search..."
+        ></v-text-field>
+      </div> -->
     </div>
     <div>
         <v-icon>mdi-menu-down</v-icon>
     </div>
     <v-data-iterator
+      v-show='items.length > 0'
       :items="items"
       :items-per-page="itemsOnPage"
       hide-default-footer
-      :sort-by="sortBy"
-      :sort-desc="sortDesc"
+      :custom-sort='customSort'
+      :search="search"
     >
       <template v-slot:default="props">
         <v-expansion-panels focusable accordion>
@@ -128,12 +143,12 @@ export default {
   data: () => ({
     sortColor: {year: '#ff2a2a', imdb:'#ffb416', rated:'#7fff2a', name:'#2a7fff'},
     itemsOnPage: 15,
-    // sortBy: 'year',
     sortDesc: true,
+    sortBy: 'year',
+    search: '',
     items: [],
     ratingsList: [],
     onlyRated: '',
-    sortBy: 'year',
     genreColors: { hulu: HuluColors, netflix: NetflixColors },
     catColors: { netflix: 'red', hulu: 'green lighten-2' },
   }),
@@ -170,7 +185,52 @@ export default {
       return ratedItems
     },
     scrollToTop () {
+      this.itemsOnPage = 15
       window.scrollTo({ top: 0, behavior: 'smooth' })
+
+      
+    },
+    customSort (items) {
+      items.sort((a, b) => {
+        if (this.sortBy === 'year') {
+          if(this.sortDesc) {
+            if(a.year > b.year) { return -1 }
+            if(a.year < b.year) { return 1 }
+            return 0
+          } else {
+            if(a.year > b.year) { return 1 }
+            if(a.year < b.year) { return -1 }
+            return 0
+          }
+        }
+        if (this.sortBy === 'imdbScore') {
+          if(this.sortDesc) {
+            if(b.imdbScore === 'N/A') { return -1 }
+            if(parseFloat(a.imdbScore) < parseFloat(b.imdbScore)) { return 1 }
+            if(parseFloat(a.imdbScore) > parseFloat(b.imdbScore)) { return -1 }
+            return 0
+          } else {
+            if(a.imdbScore === 'N/A') { return -1 }
+            if(parseFloat(a.imdbScore) < parseFloat(b.imdbScore)) { return -1 }
+            if(parseFloat(a.imdbScore) > parseFloat(b.imdbScore)) { return 1 }
+            return 0
+          }
+        }
+        if (this.sortBy === 'title') {
+          let titleA = a.title.toLowerCase()
+          let titleB = b.title.toLowerCase()
+          if(this.sortDesc) {
+            if(titleA > titleB) { return 1 }
+            if(titleA < titleB) { return -1 }
+            return 0
+          } else {
+            if(titleA > titleB) { return -1 }
+            if(titleA < titleB) { return 1 }
+            return 0
+          }
+        }
+      })
+      return items
     }
   },
   watch: {
@@ -194,7 +254,6 @@ export default {
   }
   .infoText {
     padding:0;
-    /* padding-top:2px; */
     text-align: right;
     line-height: normal;
     font-size: 14px;
@@ -207,6 +266,7 @@ export default {
   .descText {
     padding-top:10px;
     text-align: left;
+    line-height: normal;
   }
   .tagContainer {
     padding:0px;
@@ -228,9 +288,14 @@ export default {
     padding-left: 10px;
     min-height:30px
   }
-  .sortBtn {
+  .sortBar {
     filter: drop-shadow(0px 1px 1px var(--v-title-base));
+  }
+  .sortBtn {
     font-size: 11px;
+  }
+  .v-text-field {
+    font-size: 14px;
   }
   .colorCat {
     filter: drop-shadow(0px 1px 1px var(--v-shadow-base));

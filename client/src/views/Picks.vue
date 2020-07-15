@@ -102,11 +102,9 @@
         <br>
         <br>
         <br>
-        <br>
-        <br>
       </div>
       <bottom-links v-show='picksLoaded' :homeLink='true'>
-        Want to get StreamCats news and updates?
+        Something to say?
       </bottom-links>
     </v-container>
   </div>
@@ -220,20 +218,20 @@ export default {
   .titleText {
     padding:0;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: 500;
   }
   .infoText {
     padding-bottom:1px;
     text-align: right;
     font-size: 15px;
-    font-weight: 500;
+    font-weight: 400;
     min-width: 135px;
   }
   .dividerLine {
     font-size: 17px;
   }
   .subheadingText{
-    font-weight: 500;
+    font-weight: 400;
     max-width: 86%;
     text-align: left;
     line-height: 14pt;
@@ -243,6 +241,7 @@ export default {
     line-height: normal;
     padding-top:4px;
     text-align: left;
+    font-weight: 300;
   }
   .postText {
     color: grey;

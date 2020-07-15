@@ -19,7 +19,7 @@ const detailScraper = {
       // After save, reset the running files to empty lists
       fs.writeFile(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
-        console.log('Reset running ratings file!')
+        console.log('Reset running details file!')
       })
       fs.writeFile(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
@@ -48,7 +48,7 @@ const detailScraper = {
     await page.setViewport({
         width: 600,
         height: 800
-    });
+    })
 
     for (t=0;t<newTitles.length;t++) {
       console.log ('On item: ', t)
