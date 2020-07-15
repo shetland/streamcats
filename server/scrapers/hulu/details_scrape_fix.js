@@ -11,7 +11,7 @@ const detailScraper = {
       fs.writeFileSync('../data/hulu/delta/ratings/deltaRatings_fix.json', JSON.stringify(newDetails))
       console.log('Saved details delta!')
 
-      fs.writeFile(`../data/hulu/delta/details/archive/deltaRatings_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
+      fs.writeFile(`../data/hulu/delta/ratings/archive/deltaRatings_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
         if (err) throw err
         console.log('Archived details delta!')
       })
