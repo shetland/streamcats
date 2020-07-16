@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container class="setWidth">
+
       <div class="text-center">
         <stream-cats class='scTitle'></stream-cats>
         <div>
@@ -16,7 +17,8 @@
         </div>
       </div>
 
-      <div v-show='picksLoaded' class="text-center ">
+
+      <div class="text-center ">
         <div :id='item.linkId' v-for='(item, index) in items' :key='item.imgSrc'>
           <div class='pickCard' rounded='xl'>
 
@@ -144,8 +146,8 @@ export default {
     genreColors: { hulu: HuluColors, netflix: NetflixColors },
     noteCopy: false,
     copyIssue: false,
-    baseUrl: process.env.VUE_APP_BASE_URL,
-    picksLoaded: false
+    picksLoaded: false,
+    baseUrl: process.env.VUE_APP_BASE_URL
   }),
   created () {
     this.getPicks()
@@ -211,7 +213,7 @@ export default {
     max-width: 800px;
   }
   .scTitle {
-    max-width: 650px;
+    max-width: 640px;
     padding-top: 20px;
     padding-bottom: 12px;
     filter: drop-shadow(0px 1px 1px var(--v-title-base));

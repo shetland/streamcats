@@ -26,23 +26,9 @@
         <v-icon small>{{sortDesc? "mdi-chevron-down" : "mdi-chevron-up" }}</v-icon>
       </v-btn>
       </v-btn-toggle>
-      <!-- Search Bar - nice but really not important for browsing 
-      (if you know what you are looking for you can google it)
-      Might add in later depending on feedback, but the search filter should not be dynamic for mobile (should have 'go btn')
-      <div class='searchInput'>
-        <v-text-field
-          v-model='search'
-          rounded
-          height="38"
-          solo
-          flat
-          dense
-          placeholder="Search..."
-        ></v-text-field>
-      </div> -->
     </div>
     <div>
-        <v-icon>mdi-menu-down</v-icon>
+      <v-icon>mdi-menu-down</v-icon>
     </div>
     <v-data-iterator
       v-show='items.length > 0'
@@ -50,7 +36,6 @@
       :items-per-page="itemsOnPage"
       hide-default-footer
       :custom-sort='customSort'
-      :search="search"
     >
       <template v-slot:default="props">
         <v-expansion-panels focusable accordion>
@@ -144,7 +129,6 @@ export default {
     itemsOnPage: 15,
     sortDesc: true,
     sortBy: 'year',
-    search: '',
     items: [],
     ratingsList: [],
     onlyRated: '',

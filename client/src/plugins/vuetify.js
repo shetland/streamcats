@@ -11,7 +11,7 @@ export default new Vuetify({
         primary:'#222',
         head: '#fff',
         shadow: '#888',
-        title: '#bbb',
+        title: '#bcbcbc',
         card: '#fff',
       },
       dark: {

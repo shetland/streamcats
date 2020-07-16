@@ -214,13 +214,13 @@ export default {
           setTimeout(() => { 
             this.updatingCat = ''
             this.currCat = cat 
-          }, 800)
+          }, 600)
         }
       }
       if (!this.cd[cat]) {
         this.loadedCat = false
         this.gd(cat)
-        setTimeout(() => { this.loadedCat = true }, 800)
+        setTimeout(() => { this.loadedCat = true }, 600)
       }
     },
     setType (type) {
@@ -236,8 +236,8 @@ export default {
           setTimeout(() => { 
             this.updatingType = ''
             this.currType = type
-            this.genreList = this.getGenres(this.cd[this.currCat][type]) // !
-          }, 800)
+            this.genreList = this.getGenres(this.cd[this.currCat][type])
+          }, 600)
         }
       }
     },
@@ -254,7 +254,7 @@ export default {
             this.currGenre = genre
             this.updatingGenre = ''
             this.genreLoaded = true
-          }, 800 )
+          }, 600 )
         }
       } else {
         if (!this.updatingGenre) {
@@ -266,7 +266,7 @@ export default {
             this.currGenre = genre
             this.updatingGenre = ''
             this.genreLoaded = true
-          }, 800 )
+          }, 600 )
         }
       }
     },
@@ -448,7 +448,7 @@ export default {
     max-width: 800px;
   }
   .scTitle {
-    max-width: 650px;
+    max-width: 640px;
     padding-top: 20px;
     filter: drop-shadow(0px 1px 1px var(--v-title-base));
   }

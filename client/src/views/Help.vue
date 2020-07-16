@@ -199,7 +199,7 @@ export default {
     max-width: 800px;
   }
   .scTitle {
-    max-width: 650px;
+    max-width: 640px;
     padding-top: 20px;
     padding-bottom: 12px;
     filter: drop-shadow(0px 1px 1px var(--v-title-base));
