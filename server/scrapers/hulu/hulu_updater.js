@@ -6,8 +6,8 @@ const ratingScraper = require('./ratings_scrape.js')
 
 async function main() {
 
-  console.log('Getting all Hulu titles...')
-  await titleScraper.run()
+  // console.log('Getting all Hulu titles...')
+  // await titleScraper.run()
 
   console.log('Getting new titles delta...')
   await deltaFinder.run()
