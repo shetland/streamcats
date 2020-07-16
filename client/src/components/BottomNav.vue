@@ -34,7 +34,7 @@ export default {
   },
   data: () => ({
     darkTheme: false,
-    activeBtn: 1,
+    activeBtn: 2,
     btnColors: ['', 'red', '', 'green', 'blue' ]
   }),
   mounted () {

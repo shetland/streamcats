@@ -22,14 +22,13 @@
       <v-btn class="sortBtn" small height="36" :color='sortBy.includes("title")? sortColor["name"]:""' @click='handleSort("title")'>NAME</v-btn>
       <v-btn class="sortBtn" small height="36" :color='sortBy.includes("imdbScore")? sortColor["imdb"]:""' @click='handleSort("imdbScore")'>IMDB</v-btn>
       <v-btn class="sortBtn" small height="36" :color='sortBy.includes("year")? sortColor["year"]:""' @click='handleSort("year")'>YEAR</v-btn>
-      <v-btn min-width="30" width="40" small height="36"   class="sortBtn"  @click='sortDesc=!sortDesc'>
-        <v-icon small v-show='sortDesc'>mdi-chevron-down</v-icon>
-        <v-icon small v-show='!sortDesc'>mdi-chevron-up</v-icon>
+      <v-btn min-width="30" width="40" small height="36" class="sortBtn"  @click='sortDesc=!sortDesc'>
+        <v-icon small>{{sortDesc? "mdi-chevron-down" : "mdi-chevron-up" }}</v-icon>
       </v-btn>
       </v-btn-toggle>
       <!-- Search Bar - nice but really not important for browsing 
       (if you know what you are looking for you can google it)
-      Might add in later depending on feedback
+      Might add in later depending on feedback, but the search filter should not be dynamic for mobile (should have 'go btn')
       <div class='searchInput'>
         <v-text-field
           v-model='search'
@@ -90,7 +89,7 @@
               <br>
               <v-row justify='space-between'>
                 <div>
-                  <v-btn class="catBtn" outlined small rounded target="_blank" color='#FBC02D' :href='item.imdbHref'>
+                  <v-btn :disabled='!item.imdbHref' class="catBtn" outlined small rounded target="_blank" color='#FBC02D' :href='item.imdbHref'>
                     IMDB:<v-icon small>mdi-exit-to-app</v-icon>
                   </v-btn>
                 </div>

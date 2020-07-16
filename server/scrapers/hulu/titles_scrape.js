@@ -107,10 +107,12 @@ const titleScraper = {
                 let currentObj = {}
                 let title = ''
                 let id = ''
-                let newTitle = titlesOnPage[i].alt.split('Cover art for ')[1]
+                let periodTitle = titlesOnPage[i].alt.split('Cover art for ')[1] // could also get this (or overwrite) in detail scrape
+                let newTitle = periodTitle.replace(/\.$/, '') // remove period from the end of titles
                 let beforeQuest = titlesOnPage[i].src.split('?')[0]
                 let cutId = beforeQuest.split('artwork/')[1]
                 // Remove punctuation from title string and add to id str for real id...
+                // This may be removed at some point, since I think that just the ids without names route to the correct title
                 let titleStr = newTitle.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-").toLowerCase()
                 let realId = titleStr + '-' + cutId
 

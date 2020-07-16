@@ -110,13 +110,13 @@ const libUpdate = {
     console.log('Delta lib has:\t ', Object.keys(deltaObjGenres).length, ' titles...')
     console.log('New lib has:\t', Object.keys(libOut).length, ' titles...')
 
-    // Archive old lib
-    fs.writeFile(`../data/hulu/lib/archive/hulu_lib_${dateIn}.json`, JSON.stringify(lib), function (err) {
-      if (err) throw err
-      console.log('Archived old lib!')
-    })
+    // // Archive old lib
+    // fs.writeFile(`../data/hulu/lib/archive/hulu_lib_${dateIn}.json`, JSON.stringify(lib), function (err) {
+    //   if (err) throw err
+    //   console.log('Archived old lib!')
+    // })
 
-    return libOut
+    return lib
   },
   populateDetails: (objIn, libIn) => {
     const genreKeys = Object.keys(objIn)

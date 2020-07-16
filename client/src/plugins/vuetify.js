@@ -11,13 +11,15 @@ export default new Vuetify({
         primary:'#222',
         head: '#fff',
         shadow: '#888',
-        title: '#bbb'
+        title: '#bbb',
+        card: '#fff',
       },
       dark: {
         primary: '#fff',
         head: '#aaa',
         shadow: '#000',
-        title: '#000'
+        title: '#000',
+        card: '#222'
       }
     },
     options: {

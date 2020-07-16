@@ -49,6 +49,7 @@
             rounded
             outlined
             small
+            height="32px"
           ><span class="spacer"></span>
           <span>{{type}}</span>
           <v-btn :color='catColors[currCat]' icon class="subGenreBtn">
@@ -62,6 +63,7 @@
             :color='catColors[currCat]'
             rounded
             small
+            height="32px"
           ><span class="spacer"></span>
           <span>{{currType}}</span>
           <v-btn icon class="subGenreBtn">
@@ -82,6 +84,7 @@
               :color='getColor(rule.genre)'
               rounded
               small
+              height="30px"
             ><span class="spacer"></span>{{rule.genre}}
             <v-btn icon class="subGenreBtn">
               <v-icon size='16' dense>mdi-close</v-icon>
@@ -99,6 +102,7 @@
               color='grey'
               rounded
               small
+              height="30px"
             ><span class="spacer"></span><span class="filterBtn">{{rule.genre}}</span>
             <v-btn icon class="subGenreBtn">
               <v-icon size='16' dense>mdi-close</v-icon>
@@ -121,6 +125,7 @@
             rounded
             outlined
             small
+            height="30px"
           > 
             <v-btn v-if='ruleList.length > 0' class="subGenreBtn" :color='getColor(genre)' @click="addRule(genre, 'f')" small icon>
               <v-icon size='14' dense>mdi-minus</v-icon>
@@ -443,6 +448,7 @@ export default {
     max-width: 800px;
   }
   .scTitle {
+    max-width: 650px;
     padding-top: 20px;
     filter: drop-shadow(0px 1px 1px var(--v-title-base));
   }
@@ -466,8 +472,8 @@ export default {
     text-decoration-line: line-through;
   }
   .genreText {
-    padding-top:6px;
-    padding-bottom:6px;
+    padding-top:7px;
+    padding-bottom:7px;
   }
   .spacer {
     width:14px;

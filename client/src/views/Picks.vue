@@ -1,13 +1,25 @@
 <template>
   <div>
     <v-container class="setWidth">
-      <div>
-        <stream-cats class="scTitle"></stream-cats>
+      <div class="text-center">
+        <stream-cats class='scTitle'></stream-cats>
+        <div>
+          <v-btn
+            :color='$vuetify.theme.dark? "":"#fff"'
+            rounded
+            @click='bubbleUpPicks()'
+            class="picksBtn"
+          >
+            <span class="picksBtnText">CAT PICKS</span>
+            <v-icon dense size="14px">mdi-content-duplicate</v-icon>
+          </v-btn>
+        </div>
       </div>
+
       <div v-show='picksLoaded' class="text-center ">
-        <div v-for='(item, index) in items' :key='"pick-" + index'>
-          <v-card rounded='xl'>
-            <v-img :id='item.linkId' :src='item.imgSrc'></v-img>
+        <div :id='item.linkId' v-for='(item, index) in items' :key='item.imgSrc'>
+          <div class='pickCard' rounded='xl'>
+
             <v-container class="text-left titleWrapper">
               <div class='d-flex justify-space-between align-start'>
                 <span class='titleText text-left'>
@@ -31,14 +43,16 @@
               </div>
             </v-container>
 
-            <v-divider></v-divider>
+            <div>
+              <img class="cardImg" :src='item.imgSrc' :alt='item.artworkCred'>
+            </div>
 
-            <v-container>
+            <v-container class='descWrapper'>
               <div @click='showMore(index)' class="d-flex justify-space-between align-center">
                 <span class="subheadingText">
                   {{item.subheading}}<span>{{item.showAll ? '.' : '...'}}</span>
                 </span>
-                <v-btn small text class="moreBtn">
+                <v-btn :width="52" small text class="moreBtn">
                   <span >
                     {{item.showAll ? 'less' : 'more'}}
                   </span>           
@@ -61,7 +75,7 @@
 
             <v-divider></v-divider>
 
-            <v-card-actions>
+            <div class="cardActions">
               <v-container class="d-flex justify-space-between">
                 <div>
                   <v-btn small outlined target="_blank" rounded color='#FBC02D' :href='item.imdbHref'>
@@ -87,8 +101,9 @@
                 :id='"pLink-" + index' 
                 class="postLink">
               </textarea>
-              </v-card-actions>
-          </v-card>
+            </div>
+          </div>
+
           <br>
           <div class="d-flex justify-center">
             <v-expand-transition>
@@ -168,6 +183,13 @@ export default {
         }
       }
     },
+    bubbleUpPicks () {
+      let array = this.items
+      let lastPick = array.pop() 
+      array.unshift(lastPick)
+      this.items = array
+      this.$forceUpdate()
+    },
     async getPicks () {
       try {
         const picks = await axios.get(`${process.env.VUE_APP_BASE_URL}/api/cat/picks`)
@@ -175,7 +197,7 @@ export default {
         this.picksLoaded = true
         setTimeout(()=>{
           this.scrollToLink()
-        }, 250)
+        }, 500)
       } catch (err) {
         console.log(err)
       }
@@ -185,10 +207,41 @@ export default {
 </script>
 
 <style scoped>
+  .setWidth {
+    max-width: 800px;
+  }
+  .scTitle {
+    max-width: 650px;
+    padding-top: 20px;
+    padding-bottom: 12px;
+    filter: drop-shadow(0px 1px 1px var(--v-title-base));
+  }
+  .picksBtn {
+    margin-bottom: 44px;
+  }
+  .picksBtnText {
+    padding-right:8px;
+    padding-left:2px;
+  }
+  .pickCard {
+    background-color: var(--v-card-base);
+    border-radius: 22px;
+    filter: drop-shadow(0px 1px 2px var(--v-title-base));
+  }
+  .cardImg {
+    width: 100%;
+  }
+  .cardActions {
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:2px;
+    padding-right:2px;
+  }
   .postLink {
-    width:98%;
+    width:200px;
     height:26px;
     bottom:-25px;
+    left:0px;
     position: absolute;
     opacity:0;
     cursor:default;
@@ -204,16 +257,10 @@ export default {
     width:200px;
     height:36px;
   }
-  .setWidth {
-    max-width: 800px;
-  }
-  .scTitle {
-    padding-top: 20px;
-    padding-bottom: 12px;
-    filter: drop-shadow(0px 1px 1px var(--v-title-base));
-  }
   .titleWrapper {
     line-height: normal;
+    padding-left:14px;
+    padding-right:14px;
   }
   .titleText {
     padding:0;
@@ -230,22 +277,24 @@ export default {
   .dividerLine {
     font-size: 17px;
   }
-  .subheadingText{
+  .descWrapper {
+    padding-top:7px;
+  }
+  .subheadingText {
     font-weight: 400;
-    max-width: 86%;
     text-align: left;
-    line-height: 14pt;
-    padding-bottom: 2px;
+    line-height: 1.4;
   }
   .descText {
-    line-height: normal;
-    padding-top:4px;
+    line-height: 1.4;
+    /* line-height: normal; */
+    padding-top:10px;
     text-align: left;
     font-weight: 300;
   }
   .postText {
     color: grey;
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 300;
   }
   .genreTags {
@@ -254,6 +303,7 @@ export default {
   .v-btn.moreBtn {
     padding-left:8px;
     padding-right:4px;
+    margin-left:10px;
     color: grey;
     font-size:9px;
     text-transform: uppercase;
