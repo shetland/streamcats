@@ -164,7 +164,7 @@ const detailScraper = {
       // save final errors list
       fs.writeFile(`../data/hulu/delta/details/archive/detailErrors_${dateIn}.json`, JSON.stringify(detailErrors), function (err) {
         if (err) throw err;
-        console.log('Saved rating errors!');
+        console.log('Saved detail errors!');
       })
     } catch (err) {
       console.log('Save Error: ', err)

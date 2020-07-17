@@ -13,7 +13,7 @@ const detailScraper = {
     });
 
     console.log('Fetching details...')
-    let newDetails = await detailScraper.fetchDetails(page, dateStr)
+    let newDetails = await detailScraper.fetchDetails(browser, page, dateStr)
 
     try{
       console.log('Saving...')
@@ -40,7 +40,7 @@ const detailScraper = {
       if (err) throw err
     }
   },
-  fetchDetails: async (page, dateIn) => {
+  fetchDetails: async (browser, page, dateIn) => {
     const newTitlesRaw = fs.readFileSync('../data/netflix/delta/titles/deltaTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
     // load the data from running files in case of a crash / restart
@@ -121,13 +121,13 @@ const detailScraper = {
       // save final errors list
       fs.writeFile(`../data/netflix/delta/details/archive/detailErrors_${dateIn}.json`, JSON.stringify(detailErrors), function (err) {
         if (err) throw err;
-        console.log('Saved rating errors!');
+        console.log('Saved detail errors!');
       })
     } catch (err) {
       console.log('Save Error: ', err)
     }
 
-    browser.close();
+    browser.close()
     console.log('Finished fetching details...')
 
     return titlesWithDetails
