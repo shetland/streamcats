@@ -61,8 +61,8 @@ const titleScraper = {
     let finalObj = {}
 
     for (c=0;c<genreLinksIn.length;c++) {
-      let currentGenre = genreLinksIn[g].name
-      let currentLink = genreLinksIn[g].href
+      let currentGenre = genreLinksIn[c].name
+      let currentLink = genreLinksIn[c].href
       let titlesOnGenrePage = []
       console.log('On Genre: ', currentGenre)
 
@@ -120,7 +120,7 @@ const titleScraper = {
               titlesInRow.push(...titlesOnPage)
               // 4-3 Go to next page
               await page.click(`#row-${currentRow} > div > div > div > span.handle.handleNext.active`)
-              await page.waitFor(2*1000)
+              await page.waitFor(1*1000)
             }
             // 3-3 Filter array for only unique titles in the row
             const filteredRowTitles = titlesInRow.filter((item, index, self) =>
@@ -222,7 +222,7 @@ const titleScraper = {
     }
     await page.waitFor(1*1000)
     await page.goto(typeLink)
-    await page.waitFor(6*1000)
+    await page.waitFor(5*1000)
     // 2-1. Click the genre flydown to expose list
     await page.click(`#appMountPoint > div > div > div:nth-child(1) > div.bd.dark-background > div.pinning-header > div > div.sub-header > div > div > div > div.aro-genre-details > div.subgenres > div > div > div > div`);
     await page.waitFor(2*1000);
