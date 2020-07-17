@@ -4,39 +4,39 @@ const dataCompressor = {
   run: () => {
     // Get data
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
-    const movieDataRaw = fs.readFileSync('../data/hulu/current/movieData.json')
+    const movieDataRaw = fs.readFileSync('../data/netflix/current/movieData.json')
     const movieData = JSON.parse(movieDataRaw)
-    const tvDataRaw = fs.readFileSync('../data/hulu/current/tvData.json')
+    const tvDataRaw = fs.readFileSync('../data/netflix/current/tvData.json')
     const tvData = JSON.parse(tvDataRaw)
 
-    let hmk = dataCompressor.getCompressionKey(movieData)
-    let htk = dataCompressor.getCompressionKey(tvData)
-    let hmv = dataCompressor.keyFlip(hmk)
-    let htv = dataCompressor.keyFlip(htk)
-    let compHmd = dataCompressor.compressData(hmk, movieData)
-    let compHtd = dataCompressor.compressData(htk, tvData)
-    let exportCompKeys = { "hmv": hmv, "htv": htv }
+    let nmk = dataCompressor.getCompressionKey(movieData)
+    let ntk = dataCompressor.getCompressionKey(tvData)
+    let nmv = dataCompressor.keyFlip(nmk)
+    let ntv = dataCompressor.keyFlip(ntk)
+    let compNmd = dataCompressor.compressData(nmk, movieData)
+    let compNtd = dataCompressor.compressData(ntk, tvData)
+    let exportCompKeys = { "nmv": nmv, "ntv": ntv }
 
     console.log('Saving...')
     try {
-      fs.writeFileSync('../../data/hulu/compHmd.json', JSON.stringify(compHmd))
+      fs.writeFileSync('../../data/netflix/compNmd.json', JSON.stringify(compNmd))
       console.log('Movie data compressed!')
 
-      fs.writeFileSync('../../data/hulu/compHtd.json', JSON.stringify(compHtd))
+      fs.writeFileSync('../../data/netflix/compNtd.json', JSON.stringify(compNtd))
       console.log('Tv data compressed!')
 
-      fs.writeFileSync('../../data/compkeys/huluCompKeys.json', JSON.stringify(exportCompKeys))
+      fs.writeFileSync('../../data/compkeys/netflixCompKeys.json', JSON.stringify(exportCompKeys))
       console.log('Compression keys saved!')
 
-      fs.writeFile(`../../data/hulu/archive/compHmd_${dateStr}.json`, JSON.stringify(compHmd), function (err) {
+      fs.writeFile(`../../data/netflix/archive/compNmd_${dateStr}.json`, JSON.stringify(compNmd), function (err) {
         if (err) throw err
         console.log('Archived compressed movie data!')
       })
-      fs.writeFile(`../../data/hulu/archive/compHtd_${dateStr}.json`, JSON.stringify(compHtd), function (err) {
+      fs.writeFile(`../../data/netflix/archive/compNtd_${dateStr}.json`, JSON.stringify(compNtd), function (err) {
         if (err) throw err
         console.log('Archived compressed tv data!')
       })
-      fs.writeFile(`../../data/compkeys/archive/huluCompKeys_${dateStr}.json`, JSON.stringify(exportCompKeys), function (err) {
+      fs.writeFile(`../../data/compkeys/archive/netflixCompKeys_${dateStr}.json`, JSON.stringify(exportCompKeys), function (err) {
         if (err) throw err
         console.log('Archived compression keys!')
       })

@@ -5,11 +5,11 @@ const ratingScraper = require('./ratings_scrape.js')
 
 async function main() {
 
-  // console.log('Getting all Netflix titles...')
-  // await titleScraper.run()
+  console.log('Getting all Netflix titles...')
+  await titleScraper.run()
 
-  // console.log('Getting new titles delta...')
-  // await deltaFinder.run()
+  console.log('Getting new titles delta...')
+  await deltaFinder.run()
 
   console.log('Fetching new title details...')
   await detailScraper.run()

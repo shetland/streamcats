@@ -4,37 +4,41 @@ const libUpdate = {
   run: () => {
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
     // Load new titles
-    const newTitlesRaw = fs.readFileSync('../data/hulu/titles/huluTitles.json') // is obj
-    const newTitles = JSON.parse(newTitlesRaw)
+    const movieObjRaw = fs.readFileSync('../data/netflix/titles/movieTitles.json') // is obj
+    const movieObj = JSON.parse(movieObjRaw)
+
+    const tvObjRaw = fs.readFileSync('../data/netflix/titles/tvTitles.json') // is obj
+    const tvObj = JSON.parse(tvObjRaw)
 
     // Populate subgenres
-    const titlesWithGenres = libUpdate.populateSubgenres(newTitles)
+    const moviesWithGenres = libUpdate.populateSubgenres(movieObj)
+    const tvWithGenres = libUpdate.populateSubgenres(tvObj)
+
     // Update lib
-    const updatedLib = libUpdate.updateLib(titlesWithGenres, dateStr)
+    const updatedLib = libUpdate.updateLib(moviesWithGenres, tvWithGenres, dateStr)
+
     // Populate details
-    const titlesWithDetails = libUpdate.populateDetails(titlesWithGenres, updatedLib)
-    // Split into movies and tv - for hulu only
-    const movieTitles = libUpdate.getMediaType(titlesWithDetails, 'movie')
-    const tvTitles = libUpdate.getMediaType(titlesWithDetails, 'tv')
+    const movieTitles = libUpdate.populateDetails(moviesWithGenres, updatedLib)
+    const tvTitles = libUpdate.populateDetails(tvWithGenres, updatedLib)
 
     console.log('Saving...')
     try {
-      fs.writeFileSync('../data/hulu/current/movieData.json', JSON.stringify(movieTitles))
+      fs.writeFileSync('../data/netflix/current/movieData.json', JSON.stringify(movieTitles))
       console.log('Movie data saved!')
 
-      fs.writeFileSync('../data/hulu/current/tvData.json', JSON.stringify(tvTitles))
+      fs.writeFileSync('../data/netflix/current/tvData.json', JSON.stringify(tvTitles))
       console.log('Tv data saved!')
 
-      fs.writeFileSync('../data/hulu/lib/hulu_lib.json', JSON.stringify(updatedLib))
+      fs.writeFileSync('../data/netflix/lib/netflix_lib.json', JSON.stringify(updatedLib))
       console.log('Library updated!')
 
       // Archive tv and movie data
-      fs.writeFile(`../data/hulu/current/archive/movieData_${dateStr}.json`, JSON.stringify(movieTitles), function (err) {
+      fs.writeFile(`../data/netflix/current/archive/movieData_${dateStr}.json`, JSON.stringify(movieTitles), function (err) {
         if (err) throw err
         console.log('Archived movie data!')
       })
 
-      fs.writeFile(`../data/hulu/current/archive/tvData_${dateStr}.json`, JSON.stringify(tvTitles), function (err) {
+      fs.writeFile(`../data/netflix/current/archive/tvData_${dateStr}.json`, JSON.stringify(tvTitles), function (err) {
         if (err) throw err
         console.log('Archived tv data!')
       })
@@ -73,14 +77,17 @@ const libUpdate = {
     })
     return objOut
   },
-  updateLib: (objIn, dateIn) => {
+  updateLib: (movieObj, tvObj, dateIn) => {
     // Load lib
-    const libRaw = fs.readFileSync('../data/hulu/lib/hulu_lib.json')
+    const libRaw = fs.readFileSync('../data/netflix/lib/netflix_lib.json')
     const lib = JSON.parse(libRaw) // is obj
     // Load delta details
-    const deltaListRaw = fs.readFileSync('../data/hulu/delta/ratings/deltaRatings.json')
+    const deltaListRaw = fs.readFileSync('../data/netflix/delta/ratings/deltaRatings.json')
     const deltaList = JSON.parse(deltaListRaw) // is list
-    const genreKeys = Object.keys(objIn)
+
+    const movieKeys = Object.keys(movieObj)
+    const tvKeys = Object.keys(tvObj)
+
     let libOut = {}
     let deltaObj = {}
     let deltaObjGenres = {}
@@ -88,19 +95,32 @@ const libUpdate = {
     deltaList.forEach((title) => {
       deltaObj[title.id] = title
     })
-    // Update delta object with genres
-    genreKeys.forEach((genre) => {
-      const genreArray = objIn[genre]
+    // Update delta object with genres from movie obj
+    movieKeys.forEach((genre) => {
+      const genreArray = movieObj[genre]
       genreArray.forEach((title) => {
-        // if the title is in the delta obj and has year detail (is still in hulu cat)...
+        // if the title is in the delta obj and has year detail
         if (deltaObj[title.id] && deltaObj[title.id].year) {
           // save into new obj with subgenres
           deltaObjGenres[title.id] = deltaObj[title.id]
           deltaObjGenres[title.id].subgenres = title.subgenres
         }
-
       })
     })
+
+    // Update delta object with genres from tv obj
+    tvKeys.forEach((genre) => {
+      const genreArray = tvObj[genre]
+      genreArray.forEach((title) => {
+        // if the title is in the delta obj and has year detail
+        if (deltaObj[title.id] && deltaObj[title.id].year) {
+          // save into new obj with subgenres
+          deltaObjGenres[title.id] = deltaObj[title.id]
+          deltaObjGenres[title.id].subgenres = title.subgenres
+        }
+      })
+    })
+
     // Combine the old lib and delta
     libOut = {
       ...lib,
@@ -111,11 +131,11 @@ const libUpdate = {
     console.log('New lib has:\t', Object.keys(libOut).length, ' titles...')
 
     // Archive old lib
-    fs.writeFile(`../data/hulu/lib/archive/hulu_lib_${dateIn}.json`, JSON.stringify(lib), function (err) {
+    fs.writeFile(`../data/netflix/lib/archive/netflix_lib_${dateIn}.json`, JSON.stringify(lib), function (err) {
       if (err) throw err
       console.log('Archived old lib!')
     })
-
+    
     return libOut
   },
   populateDetails: (objIn, libIn) => {
@@ -129,31 +149,6 @@ const libUpdate = {
         // if the title is in the updated lib (if we actually have correct details)
         if (libIn[title.id]) {
           titleList.push(libIn[title.id])
-        }
-      })
-      objOut[genre] = titleList
-    })
-    return objOut
-  },
-  getMediaType: (objIn, type) => {
-    const movieRegex = /(\/movie\/)/
-    const tvRegex = /(\/series\/)/
-    const genreKeys = Object.keys(objIn)
-    let objOut = {}
-    // Sort the data by movies or tv
-    genreKeys.forEach((genre) => {
-      const genreArray = objIn[genre]
-      let titleList = []
-      genreArray.forEach((title) => {
-        if (type === 'movie') {
-          if(title.href.match(movieRegex) !== null) {
-            titleList.push(title)
-          }
-        }
-        if (type === 'tv') {
-          if(title.href.match(tvRegex) !== null) {
-            titleList.push(title)
-          }
         }
       })
       objOut[genre] = titleList

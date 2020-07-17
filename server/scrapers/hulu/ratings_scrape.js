@@ -193,16 +193,16 @@ const ratingScraper = {
       fs.writeFileSync('../data/hulu/delta/ratings/ratingIssues.json', JSON.stringify(ratingIssues))
       console.log('Saved rating issues!')
 
-      fs.writeFileSync('../data/hulu/delta/ratings/ratingIssues.json', JSON.stringify(ratingErrors))
+      fs.writeFileSync('../data/hulu/delta/ratings/ratingErrors.json', JSON.stringify(ratingErrors))
       console.log('Saved rating errors!')
 
       fs.writeFile(`../data/hulu/delta/ratings/archive/ratingIssues_${dateIn}.json`, JSON.stringify(ratingIssues), function (err) {
         if (err) throw err;
-        console.log('Saved rating issues!');
+        console.log('Saved rating issues!')
       })
       fs.writeFile(`../data/hulu/delta/ratings/archive/ratingErrors_${dateIn}.json`, JSON.stringify(ratingErrors), function (err) {
         if (err) throw err;
-        console.log('Saved rating errors!');
+        console.log('Saved rating errors!')
       })
     } catch (err) {
       console.log('Save Error: ', err)

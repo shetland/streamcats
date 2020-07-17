@@ -15,15 +15,15 @@ const titleScraper = {
       const tvGenres = await titleScraper.getGenres(page, 'tv')
       
       console.log('Fetching movies titles...')
-      const movieTitles = await titleScraper.fetchTitles(page, movieGenres, 'movie', dateStr)
+      const movieTitles = await titleScraper.fetchTitles(browser, page, movieGenres, 'movie', dateStr)
       console.log('Saving movies...')
       fs.writeFileSync('../data/netflix/titles/movieTitles.json', JSON.stringify(movieTitles))
       console.log('Saved movie titles!')
 
       console.log('Fetching tv titles...')
-      const tvTitles = await titleScraper.fetchTitles(page, tvGenres, 'tv', dateStr)
+      const tvTitles = await titleScraper.fetchTitles(browser, page, tvGenres, 'tv', dateStr)
       console.log('Saving tv...')
-      fs.writeFileSync('../data/netflix/titles/movieTitles.json', JSON.stringify(tvTitles))
+      fs.writeFileSync('../data/netflix/titles/tvTitles.json', JSON.stringify(tvTitles))
       console.log('Saved tv titles!')
 
       // Archive titles
@@ -51,7 +51,7 @@ const titleScraper = {
       if (err) throw err
     }
   },
-  fetchTitles: async (page, genreLinksIn, mediaType, dateIn) => {
+  fetchTitles: async (browser, page, genreLinksIn, mediaType, dateIn) => {
     // load the data from running files in case of a crash / restart
     const runningTitlesRaw = fs.readFileSync(`../data/netflix/titles/${mediaType}Titles_running.json`)
     let runningTitles = JSON.parse(runningTitlesRaw) // is object
