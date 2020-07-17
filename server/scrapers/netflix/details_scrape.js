@@ -4,7 +4,7 @@ const fs = require('fs')
 const detailScraper = {
   run: async () => {
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
 
     await page.setViewport({
@@ -61,7 +61,7 @@ const detailScraper = {
           // 2-2. Set random page wait time 1-2 seconds
           let pageWait = Math.floor(Math.random() * 2) + 1
           await page.waitFor(pageWait*1000)
-          
+
           // 2-3. Evaluate the page to pull details
           let newObject = await page.evaluate(() => {
             let year = ''
