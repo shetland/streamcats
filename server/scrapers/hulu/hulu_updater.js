@@ -1,4 +1,3 @@
-const fs = require('fs')
 const titleScraper = require('./titles_scrape.js')
 const deltaFinder = require('./delta_finder.js')
 const detailScraper = require('./details_scrape.js')

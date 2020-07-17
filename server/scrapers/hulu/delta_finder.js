@@ -8,7 +8,7 @@ const deltaFinder = {
     const delta = deltaFinder.getDelta(newTitles)
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
 
-    console.log('Found: ', delta.length, ' new titles')
+    console.log('Found: ', delta.length, ' new titles...')
     // Save in delta titles and dated backup
     console.log('Saving...')
     try {

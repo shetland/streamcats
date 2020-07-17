@@ -31,7 +31,7 @@ const detailScraper = {
       if (err) throw err
     }
   },
-  fetchDetails: async (datein) => {
+  fetchDetails: async (dateIn) => {
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
     const newTitlesRaw = fs.readFileSync('../data/hulu/delta/titles/deltaTitles.json')
@@ -85,7 +85,6 @@ const detailScraper = {
           let newDetails = await page.evaluate(() => {
             let header = ''
             let rating = ''
-            let genreList = ''
             let year = ''
             let headerBool = document.querySelector(`.DetailEntityMasthead__tags`) !== null
             if (headerBool){
@@ -132,6 +131,7 @@ const detailScraper = {
             "title": title.title,
             "href": realLink,
             "id": title.id,
+            "type": type,
             "year": newDetails.year,
             "rating": newDetails.rating,
             "description": newDetails.description,
@@ -162,7 +162,7 @@ const detailScraper = {
 
     try {
       // save final errors list
-      fs.writeFile(`../data/hulu/delta/details/archive/detailErrors_${dateIn}.json`, JSON.stringify(ratingErrors), function (err) {
+      fs.writeFile(`../data/hulu/delta/details/archive/detailErrors_${dateIn}.json`, JSON.stringify(detailErrors), function (err) {
         if (err) throw err;
         console.log('Saved rating errors!');
       })
