@@ -3,25 +3,27 @@ const fs = require('fs')
 
 const detailScraper = {
   run: async () => {
+
+    // AM HERE
     console.log('Fetching details...')
     let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
     let newDetails = await detailScraper.fetchDetails(dateStr)
     try{
     console.log('Saving...')
-      fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
+      fs.writeFileSync('../data/netflix/delta/details/deltaDetails.json', JSON.stringify(newDetails))
       console.log('Saved details delta!')
 
-      fs.writeFile(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
+      fs.writeFile(`../data/netflix/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
         if (err) throw err
         console.log('Archived details delta!')
       })
 
       // After save, reset the running files to empty lists
-      fs.writeFile(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]), function (err) {
+      fs.writeFile(`../data/netflix/delta/details/deltaDetails_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
         console.log('Reset running details file!')
       })
-      fs.writeFile(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]), function (err) {
+      fs.writeFile(`../data/netflix/delta/details/detailErrors_running.json`, JSON.stringify([]), function (err) {
         if (err) throw err
         console.log('Reset running errors file!')
       })
@@ -34,14 +36,14 @@ const detailScraper = {
   fetchDetails: async (datein) => {
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
-    const newTitlesRaw = fs.readFileSync('../data/hulu/delta/titles/deltaTitles.json')
+    const newTitlesRaw = fs.readFileSync('../data/netflix/delta/titles/deltaTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
 
     // load the data from running files in case of a crash / restart
-    const currentDetailsRaw = fs.readFileSync('../data/hulu/delta/details/deltaDetails_running.json')
+    const currentDetailsRaw = fs.readFileSync('../data/netflix/delta/details/deltaDetails_running.json')
     let titlesWithDetails = JSON.parse(currentDetailsRaw)
 
-    const detailErrorsRaw = fs.readFileSync('../data/hulu/delta/details/detailErrors_running.json')
+    const detailErrorsRaw = fs.readFileSync('../data/netflix/delta/details/detailErrors_running.json')
     let detailErrors = JSON.parse(detailErrorsRaw)
 
 

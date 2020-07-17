@@ -3,19 +3,21 @@ const fs = require('fs')
 const deltaFinder = {
   run: async () => {
     // Get new titles
-    const newTitlesRaw = fs.readFileSync('../data/hulu/titles/huluTitles.json')
-    const newTitles = JSON.parse(newTitlesRaw)
-    const delta = deltaFinder.getDelta(newTitles)
+    const movieTitlesRaw = fs.readFileSync('../data/netflix/titles/movieTitles.json')
+    const movieTitles = JSON.parse(movieTitlesRaw)
+    const tvTitlesRaw = fs.readFileSync('../data/netflix/titles/tvTitles.json')
+    const tvTitles = JSON.parse(tvTitlesRaw)
+    const delta = deltaFinder.getDelta(movieTitles, tvTitles)
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
 
-    console.log('Found: ', delta.length, ' new titles')
+    console.log('Found: ', delta.length, ' new titles!')
     // Save in delta titles and dated backup
     console.log('Saving...')
     try {
-      fs.writeFileSync('../data/hulu/delta/titles/deltaTitles.json', JSON.stringify(delta))
+      fs.writeFileSync('../data/netflix/delta/titles/deltaTitles.json', JSON.stringify(delta))
       console.log('Delta Saved!')
 
-      fs.writeFile(`../data/hulu/delta/titles/archive/deltaTitles_${dateStr}.json`, JSON.stringify(delta), function (err) {
+      fs.writeFile(`../data/netflix/delta/titles/archive/deltaTitles_${dateStr}.json`, JSON.stringify(delta), function (err) {
         if (err) throw err
         console.log('Archived delta!')
       })
@@ -25,26 +27,38 @@ const deltaFinder = {
       throw err
     }
   },
-  getDelta: (titlesIn) => {
+  getDelta: (movieObjIn, tvObjIn) => {
     // Load lib
-    const titleLibRaw = fs.readFileSync('../data/hulu/lib/hulu_lib.json')
+    const titleLibRaw = fs.readFileSync('../data/netflix/lib/netflix_lib.json')
     const titleLib = JSON.parse(titleLibRaw)
     console.log('Getting delta...')
-    // Get all genres in object
-    let genreKeys = Object.keys(titlesIn)
-    let deltaTitles = []
-    // For each genre
-    genreKeys.forEach((genre) => {
-        let genreArray = titlesIn[genre]
-        // For each title in the genre
+    // Get movie delta
+    let movieKeys = Object.keys(movieObjIn)
+    let deltaMovieTitles = []
+    movieKeys.forEach((genre) => {
+        let genreArray = movieObjIn[genre]
         genreArray.forEach((title) => {
-          // See if title is in lib and save into delta
           if(!titleLib[title.id]) {
-            deltaTitles.push(title)
+            deltaMovieTitles.push(title)
           }
         })
     })
-    return deltaFinder.filterDupes(deltaTitles)
+    let filteredMovieDelta = deltaFinder.filterDupes(deltaMovieTitles)
+    // Get tv delta
+    let tvKeys = Object.keys(tvObjIn)
+    let deltaTvTitles = []
+    tvKeys.forEach((genre) => {
+        let genreArray = tvObjIn[genre]
+        genreArray.forEach((title) => {
+          if(!titleLib[title.id]) {
+            deltaTvTitles.push(title)
+          }
+        })
+    })
+    let filteredTvDelta = deltaFinder.filterDupes(deltaTvTitles)
+    let fullDelta = [ ...filteredMovieDelta, ...filteredTvDelta ]
+    // Return filtered full delta
+    return deltaFinder.filterDupes(fullDelta)
   },
   filterDupes: (arrayIn) => {
     console.log('Filtering delta...')
