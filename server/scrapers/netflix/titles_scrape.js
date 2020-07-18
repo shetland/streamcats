@@ -37,7 +37,11 @@ const titleScraper = {
       })
 
       // After save, reset the running files to be empty
-      fs.writeFile(`../data/netflix/titles/netflixTitles_running.json`, JSON.stringify({}), function (err) {
+      fs.writeFile(`../data/netflix/titles/movieTitles_running.json`, JSON.stringify({}), function (err) {
+        if (err) throw err
+        console.log('Reset running titles file!')
+      })
+      fs.writeFile(`../data/netflix/titles/tvTitles_running.json`, JSON.stringify({}), function (err) {
         if (err) throw err
         console.log('Reset running titles file!')
       })
