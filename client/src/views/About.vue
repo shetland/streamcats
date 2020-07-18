@@ -55,7 +55,7 @@
           <p class="starDivider">*  *  *  *  *  *  *  *  *  *  *  *</p>
           <p>
             Want recommendations straight from the cat's mouth? Check out the <router-link to='/cat-picks'>picks page</router-link>
-            for reviews of our favorite titles, original StreamCats illustrations, and more!
+            for reviews of our favorite titles, original illustrations, and more!
           </p>
         </div>
       </div>

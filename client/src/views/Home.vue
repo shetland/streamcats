@@ -49,9 +49,9 @@
             rounded
             outlined
             small
-            height="32px"
+            height="31px"
           ><span class="spacer"></span>
-          <span>{{type}}</span>
+          <span class="genreText">{{type}}</span>
           <v-btn :color='catColors[currCat]' icon class="subGenreBtn">
             <v-icon size='16' dense>mdi-plus</v-icon>
           </v-btn>
@@ -63,7 +63,7 @@
             :color='catColors[currCat]'
             rounded
             small
-            height="32px"
+            height="31px"
           ><span class="spacer"></span>
           <span>{{currType}}</span>
           <v-btn icon class="subGenreBtn">
@@ -84,7 +84,7 @@
               :color='getColor(rule.genre)'
               rounded
               small
-              height="30px"
+              height="31px"
             ><span class="spacer"></span>{{rule.genre}}
             <v-btn icon class="subGenreBtn">
               <v-icon size='16' dense>mdi-close</v-icon>
@@ -102,7 +102,7 @@
               color='grey'
               rounded
               small
-              height="30px"
+              height="31px"
             ><span class="spacer"></span><span class="filterBtn">{{rule.genre}}</span>
             <v-btn icon class="subGenreBtn">
               <v-icon size='16' dense>mdi-close</v-icon>
@@ -125,7 +125,7 @@
             rounded
             outlined
             small
-            height="30px"
+            height="31px"
           > 
             <v-btn v-if='ruleList.length > 0' class="subGenreBtn" :color='getColor(genre)' @click="addRule(genre, 'f')" small icon>
               <v-icon size='14' dense>mdi-minus</v-icon>
