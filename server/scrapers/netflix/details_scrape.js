@@ -118,8 +118,8 @@ const detailScraper = {
     try {
       // save final errors list
       fs.writeFile(`../data/netflix/delta/details/archive/detailErrors_${dateIn}.json`, JSON.stringify(detailErrors), function (err) {
-        if (err) throw err;
-        console.log('Saved detail errors!');
+        if (err) throw err
+        console.log('Saved detail errors!')
       })
     } catch (err) {
       console.log('Save Error: ', err)
