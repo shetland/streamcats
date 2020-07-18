@@ -30,6 +30,7 @@
     <div>
       <v-icon>mdi-menu-down</v-icon>
     </div>
+    <div class="noSelect">
     <v-data-iterator
       v-show='items.length > 0'
       :items="items"
@@ -96,16 +97,32 @@
         <v-icon>mdi-chevron-down</v-icon>MORE<v-icon>mdi-chevron-down</v-icon>
       </v-btn>
     </v-row>
+    <br>
+    <div>
+      <v-btn  
+        rounded 
+        :outlined='!hasSurprise'
+        :color='!hasSurprise? "red":""'
+        @click='getSurprise()'
+        class="surprizeBtn"
+      >
+        <v-icon v-if='!hasSurprise' size="18">mdi-balloon</v-icon>
+          <span class="surpriseText">{{!hasSurprise ? "SURPRISE ME" : "RESTORE LIST"}}</span>
+        <v-icon v-if='!hasSurprise' size="18">mdi-balloon</v-icon>
+      </v-btn>
+    </div>
     <div>
       <br>
       <br>
       <br>
-      <div v-if='items.length <= itemsOnPage'>
-        <span @click='scrollToTop()'>
+      <div @click='scrollToTop()' v-if='items.length <= itemsOnPage'>
+        <span>
           <cat-head-color class="colorCat"></cat-head-color>
         </span>
         <div>"That's all folks!"</div>
+        <div class="subText">(tap to go to top)</div>
       </div>
+    </div>  
     </div>
   </div>
 </template>
@@ -130,8 +147,10 @@ export default {
     sortDesc: true,
     sortBy: 'year',
     items: [],
+    memItems: [],
     ratingsList: [],
     onlyRated: '',
+    hasSurprise: false,
     genreColors: { hulu: HuluColors, netflix: NetflixColors },
     catColors: { netflix: 'red', hulu: 'green lighten-2' },
   }),
@@ -170,8 +189,22 @@ export default {
     scrollToTop () {
       this.itemsOnPage = 15
       window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
+    getSurprise () {
+      if (!this.hasSurprise) {
+        this.memItems = this.items
+        let titleNum = this.items.length
+        let randomIndex = Math.floor(Math.random() * titleNum)
+        let surpriseList = [this.items[randomIndex]]
 
-      
+        this.items = surpriseList
+        console.log(this.items)
+        this.hasSurprise = true
+      } else {
+        this.items = this.memItems
+        this.hasSurprise = false
+        this.itemsOnPage = 15
+      }
     },
     customSort (items) {
       items.sort((a, b) => {
@@ -223,6 +256,7 @@ export default {
       this.ratingsList = this.getRatings(this.items)
       this.ratingsList.push('CLEAR')
       this.itemsOnPage = 15
+      this.hasSurprise = false
     }
   }
 }
@@ -280,10 +314,30 @@ export default {
   .v-text-field {
     font-size: 14px;
   }
+  .v-btn.surprizeBtn {
+    margin-top: 24px;
+    padding-right: 9px;
+    padding-left: 9px;
+  }
+  .surpriseText {
+    padding-right: 4px;
+    padding-left: 4px;
+  }
+  .subText {
+    font-size: 11px;
+  }
   .colorCat {
     filter: drop-shadow(0px 1px 1px var(--v-shadow-base));
     cursor: pointer;
     width: 60px;
     height: 60px;
+  }
+  .noSelect{
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
   }
 </style>

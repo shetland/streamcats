@@ -18,8 +18,8 @@ const libUpdate = {
     const updatedLib = libUpdate.updateLib(moviesWithGenres, tvWithGenres, dateStr)
 
     // Populate details
-    const movieTitles = libUpdate.populateDetails(moviesWithGenres, updatedLib)
-    const tvTitles = libUpdate.populateDetails(tvWithGenres, updatedLib)
+    const movieTitles = libUpdate.populateDetails(moviesWithGenres, updatedLib, 'movie')
+    const tvTitles = libUpdate.populateDetails(tvWithGenres, updatedLib, 'tv')
 
     console.log('Saving...')
     try {
@@ -138,20 +138,48 @@ const libUpdate = {
     
     return libOut
   },
-  populateDetails: (objIn, libIn) => {
+  populateDetails: (objIn, libIn, typeIn) => {
     const genreKeys = Object.keys(objIn)
     let objOut = {}
     // Update delta object with genres
     genreKeys.forEach((genre) => {
       const genreArray = objIn[genre]
       let titleList = []
+
+      //Part of fix for black stories problem:
+      const tvRegex = /(TV-)/
+
       genreArray.forEach((title) => {
-        // if the title is in the updated lib (if we actually have correct details)
-        if (libIn[title.id]) {
-          // get details and push with updated genres
-          let titleDetails = libIn[title.id]
-          titleDetails.subgenres = title.subgenres
-          titleList.push(titleDetails)
+        // Genre specific rule because genre tv and movies are not separated in Black Stories
+        if (genre === 'Black Stories') {
+          if(typeIn === 'tv') {
+            if (libIn[title.id]) {
+              // get details and push with updated genres
+              let titleDetails = libIn[title.id]
+              titleDetails.subgenres = title.subgenres
+              if (titleDetails.rating.match(tvRegex) !== null) {
+                titleList.push(titleDetails)
+              }
+            }
+          }
+          if(typeIn === 'movie') {
+            if (libIn[title.id]) {
+              // get details and push with updated genres
+              let titleDetails = libIn[title.id]
+              titleDetails.subgenres = title.subgenres
+              if (!titleDetails.rating.match(tvRegex) !== null) {
+                titleList.push(titleDetails)
+              }
+            }
+          }
+        } else {
+          // if the title is in the updated lib (if we actually have correct details)
+          if (libIn[title.id]) {
+            // get details and push with updated genres
+            let titleDetails = libIn[title.id]
+            titleDetails.subgenres = title.subgenres
+            titleList.push(titleDetails)
+          }
         }
       })
       objOut[genre] = titleList

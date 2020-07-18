@@ -73,8 +73,8 @@ const detailScraper = {
           }
 
           // Wait a bit
-          let pageWait = Math.floor(Math.random() * 2) + 1;
-          await page.waitFor(pageWait*1000);
+          let pageWait = Math.floor(Math.random() * 2) + 1
+          await page.waitFor(pageWait*1000)
 
           // Grab the details
           let newDetails = await page.evaluate(() => {
