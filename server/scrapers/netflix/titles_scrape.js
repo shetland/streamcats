@@ -8,6 +8,7 @@ const titleScraper = {
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
     await page.setViewport({ width: 1000, height: 800 })
+    
     await titleScraper.login(page)
 
     try{
@@ -15,16 +16,19 @@ const titleScraper = {
       const tvGenres = await titleScraper.getGenres(page, 'tv')
       
       console.log('Fetching movies titles...')
-      const movieTitles = await titleScraper.fetchTitles(browser, page, movieGenres, 'movie', dateStr)
+      const movieTitles = await titleScraper.fetchTitles(page, movieGenres, 'movie', dateStr)
       console.log('Saving movies...')
       fs.writeFileSync('../data/netflix/titles/movieTitles.json', JSON.stringify(movieTitles))
       console.log('Saved movie titles!')
 
       console.log('Fetching tv titles...')
-      const tvTitles = await titleScraper.fetchTitles(browser, page, tvGenres, 'tv', dateStr)
+      const tvTitles = await titleScraper.fetchTitles(page, tvGenres, 'tv', dateStr)
       console.log('Saving tv...')
       fs.writeFileSync('../data/netflix/titles/tvTitles.json', JSON.stringify(tvTitles))
       console.log('Saved tv titles!')
+
+      // Close Browser
+      browser.close()
 
       // Archive titles
       fs.writeFile(`../data/netflix/titles/archive/movieTitles_${dateStr}.json`, JSON.stringify(movieTitles), function (err) {
@@ -55,9 +59,9 @@ const titleScraper = {
       if (err) throw err
     }
   },
-  fetchTitles: async (browser, page, genreLinksIn, mediaType, dateIn) => {
+  fetchTitles: async (page, genreLinksIn, typeIn, dateIn) => {
     // load the data from running files in case of a crash / restart
-    const runningTitlesRaw = fs.readFileSync(`../data/netflix/titles/${mediaType}Titles_running.json`)
+    const runningTitlesRaw = fs.readFileSync(`../data/netflix/titles/${typeIn}Titles_running.json`)
     let runningTitles = JSON.parse(runningTitlesRaw) // is object
 
     const titleErrorsRaw = fs.readFileSync(`../data/netflix/titles/titleErrors_running.json`) // is list
@@ -172,7 +176,7 @@ const titleScraper = {
           console.log('\tSaving genre: ', currentGenre, '...')
           finalObj[currentGenre] = filteredGenreTitles
           // Save running list of genre
-          fs.writeFile(`../data/netflix/titles/${mediaType}Titles_running.json`, JSON.stringify(finalObj), function (err) {
+          fs.writeFile(`../data/netflix/titles/${typeIn}Titles_running.json`, JSON.stringify(finalObj), function (err) {
             if (err) throw err
             console.log(currentGenre, ' saved!')
           })
@@ -192,10 +196,9 @@ const titleScraper = {
     fs.writeFile(`../data/netflix/titles/archive/titleErrors_${dateIn}.json`, JSON.stringify(titleErrors), function (err) {
       console.log('Save error: ', err)
     })
-    // Close Browser
-    browser.close()
-    await page.waitFor(5*1000)
-    console.log('Finished fetching titles...')
+
+    await page.waitFor(4*1000)
+    console.log(`Finished fetching ${typeIn} titles...`)
 
     return finalObj
   },

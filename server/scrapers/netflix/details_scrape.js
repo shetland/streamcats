@@ -6,14 +6,12 @@ const detailScraper = {
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
-
-    await page.setViewport({
-        width: 1000,
-        height: 800
-    });
+    await page.setViewport({ width: 1000, height: 800 })
 
     console.log('Fetching details...')
-    let newDetails = await detailScraper.fetchDetails(browser, page, dateStr)
+    let newDetails = await detailScraper.fetchDetails(page, dateStr)
+
+    browser.close()
 
     try{
       console.log('Saving...')
@@ -40,7 +38,7 @@ const detailScraper = {
       if (err) throw err
     }
   },
-  fetchDetails: async (browser, page, dateIn) => {
+  fetchDetails: async (page, dateIn) => {
     const newTitlesRaw = fs.readFileSync('../data/netflix/delta/titles/deltaTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
     // load the data from running files in case of a crash / restart
@@ -127,7 +125,6 @@ const detailScraper = {
       console.log('Save Error: ', err)
     }
 
-    browser.close()
     console.log('Finished fetching details...')
 
     return titlesWithDetails

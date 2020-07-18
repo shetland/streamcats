@@ -3,9 +3,15 @@ const fs = require('fs')
 
 const ratingScraper = {
   run: async () => {
+    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
+    const page = await browser.newPage()
+    await page.setViewport({ width: 600, height: 800 })
+
     console.log('Fetching ratings...')
     let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
-    let newRatings = await ratingScraper.fetchRatings(dateStr)
+    let newRatings = await ratingScraper.fetchRatings(page, dateStr)
+
+    browser.close()
     
     console.log('Saving...')
     try {
@@ -36,9 +42,7 @@ const ratingScraper = {
       if (err) throw err
     }
   },
-  fetchRatings: async (dateIn) => {
-    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
-    const page = await browser.newPage()
+  fetchRatings: async (page, dateIn) => {
     const newTitlesRaw = fs.readFileSync('../data/netflix/delta/details/deltaDetails.json')
     const newTitles = JSON.parse(newTitlesRaw)
 
@@ -51,11 +55,6 @@ const ratingScraper = {
 
     const ratingErrorsRaw = fs.readFileSync('../data/netflix/delta/ratings/ratingErrors_running.json')
     let ratingErrors = JSON.parse(ratingErrorsRaw)
-
-    await page.setViewport({
-        width: 600,
-        height: 800
-    });
 
     for (t=0;t<newTitles.length;t++) {
       console.log ('On item: ', t)
@@ -196,7 +195,6 @@ const ratingScraper = {
       console.log('Save Error: ', err)
     }
 
-    browser.close();
     console.log('Finished fetching ratings...')
 
     return titlesWithRatings
