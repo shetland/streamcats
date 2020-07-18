@@ -167,7 +167,7 @@ const libUpdate = {
               // get details and push with updated genres
               let titleDetails = libIn[title.id]
               titleDetails.subgenres = title.subgenres
-              if (!titleDetails.rating.match(tvRegex) !== null) {
+              if (titleDetails.rating.match(tvRegex) !== null) {
                 titleList.push(titleDetails)
               }
             }
