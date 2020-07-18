@@ -128,7 +128,10 @@ const libUpdate = {
       genreArray.forEach((title) => {
         // if the title is in the updated lib (if we actually have correct details)
         if (libIn[title.id]) {
-          titleList.push(libIn[title.id])
+          // get details and push with updated genres
+          let titleDetails = libIn[title.id]
+          titleDetails.subgenres = title.subgenres
+          titleList.push(titleDetails)
         }
       })
       objOut[genre] = titleList

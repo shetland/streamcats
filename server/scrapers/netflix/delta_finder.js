@@ -44,8 +44,8 @@ const deltaFinder = {
           }
         })
     })
-    console.log("Found ", deltaMovieTitles.length, ' new movies')
     let filteredMovieDelta = deltaFinder.filterDupes(deltaMovieTitles)
+    console.log("Found ", deltaMovieTitles.length, ' new movies')
     // Get tv delta
     let tvKeys = Object.keys(tvObjIn)
     let deltaTvTitles = []
@@ -58,9 +58,8 @@ const deltaFinder = {
           }
         })
     })
-
-    console.log("Found ", deltaTvTitles.length, ' new tv shows')
     let filteredTvDelta = deltaFinder.filterDupes(deltaTvTitles)
+    console.log("Found ", deltaTvTitles.length, ' new tv shows')
     let fullDelta = [ ...filteredMovieDelta, ...filteredTvDelta ]
     // Return filtered full delta
     return deltaFinder.filterDupes(fullDelta)

@@ -8,23 +8,18 @@ const detailScraper = {
     let newDetails = await detailScraper.fetchDetails(dateStr)
     try{
     console.log('Saving...')
-      fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
-      console.log('Saved details delta!')
+    fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
+    console.log('Saved details delta!')
 
-      fs.writeFile(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails), function (err) {
-        if (err) throw err
-        console.log('Archived details delta!')
-      })
+    fs.writeFileSync(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails))
+    console.log('Archived details delta!')
 
-      // After save, reset the running files to empty lists
-      fs.writeFile(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]), function (err) {
-        if (err) throw err
-        console.log('Reset running details file!')
-      })
-      fs.writeFile(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]), function (err) {
-        if (err) throw err
-        console.log('Reset running errors file!')
-      })
+    // After save, reset the running files to empty lists
+    fs.writeFileSync(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]))
+    console.log('Reset running details file!')
+
+    fs.writeFileSync(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]))
+    console.log('Reset running errors file!')
 
     } catch (err) {
       // throw error to stop execution if not saved
@@ -140,9 +135,7 @@ const detailScraper = {
           titlesWithDetails.push(detailedTitle)
 
           // Save running list
-          fs.writeFile('../data/hulu/delta/details/deltaDetails_running.json', JSON.stringify(titlesWithDetails), function (err) {
-            if (err) throw err
-          })
+          fs.writeFileSync('../data/hulu/delta/details/deltaDetails_running.json', JSON.stringify(titlesWithDetails))
 
         } catch (err) {
           console.log('Error on: ', title.title)
