@@ -8,7 +8,7 @@ const titleScraper = {
     const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
     const page = await browser.newPage()
     await page.setViewport({ width: 1000, height: 800 })
-    
+
     await titleScraper.login(page)
 
     try{
@@ -66,7 +66,6 @@ const titleScraper = {
 
     const titleErrorsRaw = fs.readFileSync(`../data/netflix/titles/titleErrors_running.json`) // is list
     let titleErrors = JSON.parse(titleErrorsRaw)
-    let finalObj = {}
 
     for (c=0;c<genreLinksIn.length;c++) {
       let currentGenre = genreLinksIn[c].name
@@ -174,9 +173,9 @@ const titleScraper = {
           )
           // 2-5 push filtered genre titles list into a final tv obj
           console.log('\tSaving genre: ', currentGenre, '...')
-          finalObj[currentGenre] = filteredGenreTitles
+          runningTitles[currentGenre] = filteredGenreTitles
           // Save running list of genre
-          fs.writeFile(`../data/netflix/titles/${typeIn}Titles_running.json`, JSON.stringify(finalObj), function (err) {
+          fs.writeFile(`../data/netflix/titles/${typeIn}Titles_running.json`, JSON.stringify(runningTitles), function (err) {
             if (err) throw err
             console.log(currentGenre, ' saved!')
           })
@@ -185,7 +184,9 @@ const titleScraper = {
           titleErrors.push(err)
           // Save running errors
           fs.writeFile('../data/netflix/titles/titleErrors_running.json', JSON.stringify(titleErrors), function (err) {
-            console.log('Save error: ', err)
+            if (err) {
+              console.log('Save errors error: ', err)
+            }
           })
         }
       } else {
@@ -194,13 +195,15 @@ const titleScraper = {
     }
     // Save archive of final errors file
     fs.writeFile(`../data/netflix/titles/archive/titleErrors_${dateIn}.json`, JSON.stringify(titleErrors), function (err) {
-      console.log('Save error: ', err)
+      if (err) {
+        console.log('Save errors error: ', err)
+      }
     })
 
     await page.waitFor(4*1000)
     console.log(`Finished fetching ${typeIn} titles...`)
 
-    return finalObj
+    return runningTitles
   },
   login: async (page) => {
     console.log('Logging in...\n')

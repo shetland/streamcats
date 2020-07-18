@@ -160,7 +160,9 @@ const titleScraper = {
           titleErrors.push(err)
           // Save running errors
           fs.writeFile('../data/hulu/titles/titleErrors_running.json', JSON.stringify(titleErrors), function (err) {
-            console.log('Save error: ', err)
+            if (err) {
+              console.log('Save errors error: ', err)
+            }
           })
         }
       } else {
@@ -169,7 +171,9 @@ const titleScraper = {
     }
     // Save archive of final errors file
     fs.writeFile(`../data/hulu/titles/archive/titleErrors_${dateIn}.json`, JSON.stringify(titleErrors), function (err) {
-      console.log('Save error: ', err)
+      if (err) {
+        console.log('Save errors error: ', err)
+      }
     })
   
     browser.close()
