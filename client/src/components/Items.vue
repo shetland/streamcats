@@ -115,11 +115,11 @@
       <br>
       <br>
       <br>
-      <div @click='scrollToTop()' v-if='items.length <= itemsOnPage'>
+      <div @click='scrollToTop()' v-if='items.length <= itemsOnPage && !hasSurprise'>
         <span>
           <cat-head-color class="colorCat"></cat-head-color>
         </span>
-        <div>"That's all folks!"</div>
+        <div>"That's all, folks!"</div>
         <div class="subText">(tap to go to top)</div>
       </div>
     </div>  
@@ -315,7 +315,7 @@ export default {
     font-size: 14px;
   }
   .v-btn.surprizeBtn {
-    margin-top: 24px;
+    margin-top: 28px;
     padding-right: 9px;
     padding-left: 9px;
   }

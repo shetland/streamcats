@@ -17,7 +17,6 @@
         </div>
       </div>
 
-
       <div class="text-center ">
         <div :id='item.linkId' v-for='(item, index) in items' :key='item.imgSrc'>
           <div class='pickCard' rounded='xl'>
@@ -69,7 +68,7 @@
                   </div>
                   <br>
                   <div class="d-flex justify-space-between postText">
-                    <span>Artwork: {{item.artworkCred}}</span> <span class="text-right">{{item.date}}</span>
+                    <span>{{item.author}}</span> <span class="text-right">{{item.date}}</span>
                   </div>
                 </div>
               </v-expand-transition>
@@ -121,7 +120,7 @@
         <br>
       </div>
       <bottom-links v-show='picksLoaded' :homeLink='true'>
-        Something to say?
+        For StreamCats news and updates
       </bottom-links>
     </v-container>
   </div>

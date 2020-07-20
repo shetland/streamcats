@@ -9,54 +9,18 @@
         </h1>
         <div class="bodyText">
           <p>
-            We've all been there.
-            It's movie night and you're hanging out with the crew. You load up your favorite streaming service and start scrolling for
-            a new flick. The first suggestion is a no because So-and-so has seen it a million times. 
-            The next option is out because Hem-and-haw heard it got bad reviews. 
-            You find a couple things that might be okay, but you don't want to settle.
-            There are thousands of titles on here and you know there's something awesome you just haven't found yet.
-            So you scroll, and scroll, aaand scroll... 
-          </p>
-          <p>  
-            Time starts to have no meaning as your options pile up into a giant nebula of colorful thumbnails dancing in your mind.
-            What did you think looked interesting eight pages back? Is Danny DeVito the Penguin in real life? 
-            Was <i>2001: A Space Odyssey</i> a historical documentary and are we living in a H.A.L. simulation now?
-            A glance at the clock snaps you back to reality. 
-            Hem-and-haw is snoring on the loveseat. The popcorn is gone. Everyone is looking at you to make
-            any decision. Finally, you panic and randomly put on 
-            <a target='_blank' href="https://www.imdb.com/title/tt2467046/reviews">a hauntingly bad Nicholas Cage movie</a>
-            that assaults everything you once believed about Cage and leaves everyone deeply confused and unsettled.
+            StreamCats is a tool for lasering in on a new show or movie as fast as possible.
+            Whether you're on the prowl for a rollicking space western series, a PG rated horror movie, or a quirky rom-com musical,
+            StreamCats will magically get you a short list of relevant titles you can quickly review.
+            There is so much great content out there; StreamCats helps you find it!
           </p>
           <p class="starDivider">*  *  *  *  *  *  *  *  *  *  *  *</p>
-          <div>
-            Sound familiar? Tired of scrolling?
-          </div>
-          <div>
-            Welcome to StreamCats!
-          </div>
-        </div>
-        <br>
-
-        <h2 class="heading">
-          <v-divider></v-divider>
-            FIND IT FAST
-          <v-divider></v-divider>
-        </h2>
-        <div class="bodyText">
-          <p>
-            There's simply too much great content out there to spend your time aimlessly scrolling for it.
-            StreamCats is a tool to help you laser in on whatever show or movie you're in the mood for as fast as possible.
-            Got a hankering for <a target='_blank' href="https://www.hulu.com/series/firefly-044bbd6e-4ef5-4723-93fe-a384d785b45d"> a shiny sci-fi action western</a>?
-            Need to kick off your shoes after a hard day with <a target='_blank' href="https://www.netflix.com/title/80066227"> a quirky upbeat rom-com musical</a>? 
-            Planning to watch something with the family and want to find titles you will enjoy but need to keep it fairly PG so things don't get awkward? 
-            In a few taps, StreamCats gets you a short list of options that you can sort, filter, and quickly review.
-            You'll be surprised at all the awesome new stuff you'll discover!
-          </p>
-          <p class="starDivider">*  *  *  *  *  *  *  *  *  *  *  *</p>
-          <p>
+          <div class="d-flex justify-center">
+          <p class="subWidth">
             Want recommendations straight from the cat's mouth? Check out the <router-link to='/cat-picks'>picks page</router-link>
-            for reviews of our favorite titles, original illustrations, and more!
+            for reviews of our favorite titles, cool illustrations, and more!
           </p>
+          </div>
         </div>
       </div>
       <br>
@@ -97,6 +61,9 @@ export default {
     letter-spacing: 4px;
     padding-top: 14px;
     padding-bottom: 5px;
+  }
+  .subWidth {
+    max-width: 600px;
   }
   .bodyText {
     font-weight: 300;

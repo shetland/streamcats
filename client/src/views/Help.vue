@@ -119,8 +119,6 @@
       <br>
       <br>
       <br>
-      <br>
-      <br>
       </div>
       <div class="bottomPad" v-show="lessonIndex >= 1"></div>
       <bottom-links :homeLink='true' v-if='lessonIndex >= 1'>
@@ -154,7 +152,7 @@ export default {
       { text: 'Tap the MINUS sign on SUBGENRES that should be filtered', color: '#00fff4' },
       { text: 'Sort the RESULTS by NAME, RATING, IMDB score, or YEAR', color: '#0cf' },
       { text: 'Scroll down to see the search RESULTS', color: '#2a7fff' },
-      { text: 'Tap a title listing to see a summary and its links', color: '#d5f' },
+      { text: 'Tap a title to see a summary and its links', color: '#d5f' },
       { text: 'Use the links to learn more or to add the title to your watchlist', color: '#f5d' },
       { text: "That's it! Want more? Check out the cat picks page!", color: '#ff2a7f' }
     ]
