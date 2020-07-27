@@ -11,13 +11,13 @@
       <a href="mailto:streamcatsinfo@gmail.com">streamcatsinfo@gmail.com</a>
     </p>
     <div>
-    <a class="socialLinks" href="">
+    <a class="socialLinks" href="https://twitter.com/hey__bert">
       <v-icon size='46'>mdi-twitter</v-icon>
     </a>
-    <a class="socialLinks" href="">
+    <a class="socialLinks" href="https://www.instagram.com/hey__bert/">
       <v-icon size='46'>mdi-instagram</v-icon>
     </a>
-    <a class="socialLinks" href="">
+    <a class="socialLinks" href="https://www.reddit.com/user/hey__bert">
       <v-icon size='46'>mdi-reddit</v-icon>
     </a>
     </div>

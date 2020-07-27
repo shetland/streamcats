@@ -201,7 +201,7 @@ export default {
         this.picksLoaded = true
         setTimeout(()=>{
           this.scrollToLink()
-        }, 500)
+        }, 800)
       } catch (err) {
         console.log(err)
       }
