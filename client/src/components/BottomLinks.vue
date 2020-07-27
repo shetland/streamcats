@@ -11,13 +11,13 @@
       <a href="mailto:streamcatsinfo@gmail.com">streamcatsinfo@gmail.com</a>
     </p>
     <div>
-    <a class="socialLinks" href="https://twitter.com/hey__bert">
+    <a class="socialLinks" target="_blank" href="https://twitter.com/hey__bert">
       <v-icon size='46'>mdi-twitter</v-icon>
     </a>
-    <a class="socialLinks" href="https://www.instagram.com/hey__bert/">
+    <a class="socialLinks" target="_blank" href="https://www.instagram.com/hey__bert/">
       <v-icon size='46'>mdi-instagram</v-icon>
     </a>
-    <a class="socialLinks" href="https://www.reddit.com/user/hey__bert">
+    <a class="socialLinks" target="_blank" href="https://www.reddit.com/user/hey__bert">
       <v-icon size='46'>mdi-reddit</v-icon>
     </a>
     </div>
@@ -30,7 +30,7 @@
     <br>
     <br>
     <p class="subText">
-      Pssst - if you want to support StreamCats (and get exclusive content and swag) you can <a href=""> check us out on Patreon</a>
+      Pssst - if you want to support StreamCats you can <a href=""> check us out on Patreon</a>
     </p> -->
     <div class='bottomPad'></div>
   </div>
