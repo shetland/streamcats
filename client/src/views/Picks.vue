@@ -44,9 +44,12 @@
               </div>
             </v-container>
 
-            <div>
-              <img class="cardImg" :src='item.imgSrc' :alt='item.artworkCred'>
+            <div class="imgWrapper">
+              <img class="cardImg" :src='item.imgSrc' :alt='item.title'>
+              <div class="imgCredOver">{{item.imgCred}}</div>
             </div>
+
+            
 
             <v-container class='descWrapper'>
               <div @click='showMore(index)' class="d-flex justify-space-between align-center">
@@ -231,6 +234,19 @@ export default {
   }
   .cardImg {
     width: 100%;
+    object-fit: cover;
+    min-height: 200px;
+    max-height: 500px;
+  }
+  .imgWrapper {
+    position: relative;
+  }
+  .imgCredOver {
+    position: absolute;
+    right: 7px;
+    bottom: 8px;
+    color: grey;
+    font-size: 13px;
   }
   .cardActions {
     padding-top:3px;
