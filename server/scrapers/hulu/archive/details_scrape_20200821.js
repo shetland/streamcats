@@ -3,37 +3,32 @@ const fs = require('fs')
 
 const detailScraper = {
   run: async () => {
-    const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
-    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
-    const page = await browser.newPage()
-    await page.setViewport({ width: 1000, height: 800 })
-
     console.log('Fetching details...')
-    let newDetails = await detailScraper.fetchDetails(page, dateStr)
-
-    browser.close()
-
+    let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
+    let newDetails = await detailScraper.fetchDetails(dateStr)
     try{
-      console.log('Saving...')
-      fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
-      console.log('Saved details delta!')
+    console.log('Saving...')
+    fs.writeFileSync('../data/hulu/delta/details/deltaDetails.json', JSON.stringify(newDetails))
+    console.log('Saved details delta!')
 
-      fs.writeFileSync(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails))
-      console.log('Archived details delta!')
+    fs.writeFileSync(`../data/hulu/delta/details/archive/deltaDetails_${dateStr}.json`, JSON.stringify(newDetails))
+    console.log('Archived details delta!')
 
-      // After save, reset the running files to empty lists
-      fs.writeFileSync(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]))
-      console.log('Reset running details file!')
+    // After save, reset the running files to empty lists
+    fs.writeFileSync(`../data/hulu/delta/details/deltaDetails_running.json`, JSON.stringify([]))
+    console.log('Reset running details file!')
 
-      fs.writeFileSync(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]))
-      console.log('Reset running errors file!')
+    fs.writeFileSync(`../data/hulu/delta/details/detailErrors_running.json`, JSON.stringify([]))
+    console.log('Reset running errors file!')
 
     } catch (err) {
       // throw error to stop execution if not saved
       if (err) throw err
     }
   },
-  fetchDetails: async (page, dateIn) => {
+  fetchDetails: async (dateIn) => {
+    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
+    const page = await browser.newPage()
     const newTitlesRaw = fs.readFileSync('../data/hulu/delta/titles/deltaTitles.json')
     const newTitles = JSON.parse(newTitlesRaw)
 
@@ -43,6 +38,12 @@ const detailScraper = {
 
     const detailErrorsRaw = fs.readFileSync('../data/hulu/delta/details/detailErrors_running.json')
     let detailErrors = JSON.parse(detailErrorsRaw)
+
+
+    await page.setViewport({
+        width: 600,
+        height: 800
+    })
 
     for (t=0;t<newTitles.length;t++) {
       console.log ('On item: ', t)
@@ -54,15 +55,22 @@ const detailScraper = {
           let movieLink = 'https://www.hulu.com/movie/' + title.id
           let tvLink = 'https://www.hulu.com/series/' + title.id
           let realLink = ''
+          let type = ''
 
           // Determine if title is a movie or tv show
-          if (title.type === 'movie') {
+          await page.goto(movieLink)
+          let checkPage = await page.evaluate(() => {
+            let boolCheck = document.querySelector(`.DetailEntityMasthead__tags`) !== null
+            return boolCheck
+          })
+          if (checkPage) {
             realLink = movieLink
+            type = 'movie'
           } else {
+            await page.goto(tvLink)
             realLink = tvLink
+            type = 'tv'
           }
-
-          await page.goto(realLink)
 
           // Wait a bit
           let pageWait = Math.floor(Math.random() * 2) + 1
@@ -118,7 +126,7 @@ const detailScraper = {
             "title": title.title,
             "href": realLink,
             "id": title.id,
-            "type": title.type,
+            "type": type,
             "year": newDetails.year,
             "rating": newDetails.rating,
             "description": newDetails.description,
@@ -154,6 +162,9 @@ const detailScraper = {
     } catch (err) {
       console.log('Save Error: ', err)
     }
+
+    browser.close();
+    console.log('Finished fetching details...')
 
     return titlesWithDetails
   }

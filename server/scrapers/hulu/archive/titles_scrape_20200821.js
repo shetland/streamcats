@@ -7,47 +7,19 @@ const titleScraper = {
   run: async () => {
     console.log('Fetching titles...')
     let dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
-    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
-    const page = await browser.newPage()
-
-    await page.setViewport({
-      width: 1000,
-      height: 800
-    })
-
+    let newTitles = await titleScraper.fetchTitles(dateStr)
     try{
-      console.log('Fetching movies titles...')
-      const movieTitles = await titleScraper.fetchTitles(page, movieGenres, 'movie', dateStr)
-      console.log('Saving movies...')
-      fs.writeFileSync('../data/hulu/titles/movieTitles.json', JSON.stringify(movieTitles))
-      console.log('Saved movie titles!')
+    console.log('Saving...')
+      fs.writeFileSync('../data/hulu/titles/huluTitles.json', JSON.stringify(newTitles))
+      console.log('Saved new titles!')
 
-      console.log('Fetching tv titles...')
-      const tvTitles = await titleScraper.fetchTitles(page, tvGenres, 'tv', dateStr)
-      console.log('Saving tv...')
-      fs.writeFileSync('../data/hulu/titles/tvTitles.json', JSON.stringify(tvTitles))
-      console.log('Saved tv titles!')
-
-      console.log('Finished fetching titles...')
-      // Close Browser
-      browser.close()
-
-      // Archive titles
-      fs.writeFile(`../data/hulu/titles/archive/movieTitles_${dateStr}.json`, JSON.stringify(movieTitles), function (err) {
+      fs.writeFile(`../data/hulu/titles/archive/huluTitles_${dateStr}.json`, JSON.stringify(newTitles), function (err) {
         if (err) throw err
-        console.log('Archived movie titles!')
-      })
-      fs.writeFile(`../data/hulu/titles/archive/tvTitles_${dateStr}.json`, JSON.stringify(tvTitles), function (err) {
-        if (err) throw err
-        console.log('Archived tv titles!')
+        console.log('Archived new titles!')
       })
 
       // After save, reset the running files to be empty
-      fs.writeFile(`../data/hulu/titles/movieTitles_running.json`, JSON.stringify({}), function (err) {
-        if (err) throw err
-        console.log('Reset running titles file!')
-      })
-      fs.writeFile(`../data/hulu/titles/tvTitles_running.json`, JSON.stringify({}), function (err) {
+      fs.writeFile(`../data/hulu/titles/huluTitles_running.json`, JSON.stringify({}), function (err) {
         if (err) throw err
         console.log('Reset running titles file!')
       })
@@ -61,10 +33,17 @@ const titleScraper = {
       if (err) throw err
     }
   },
-  fetchTitles: async (page, genreLinksIn, typeIn, dateIn) => {
+  fetchTitles: async (dateIn) => {
+    const browser = await puppeteer.launch({ headless: false, executablePath:'/usr/bin/chromium-browser'})
+    const page = await browser.newPage()
+
+    await page.setViewport({
+      width: 1000,
+      height: 800
+    })
 
     // load the data from running files in case of a crash / restart
-    const runningTitlesRaw = fs.readFileSync(`../data/hulu/titles/${typeIn}Titles_running.json`)
+    const runningTitlesRaw = fs.readFileSync('../data/hulu/titles/huluTitles_running.json')
     let runningTitles = JSON.parse(runningTitlesRaw) // is object
 
     const titleErrorsRaw = fs.readFileSync('../data/hulu/titles/titleErrors_running.json') // is list
@@ -74,12 +53,12 @@ const titleScraper = {
     await titleScraper.login(page)
 
     // Get genre list:
-    // const genreLinks = await titleScraper.getGenres(page)
+    const genreLinks = await titleScraper.getGenres(page)
 
     // For each genre link
-    for (c=0;c<genreLinksIn.length;c++) {
-      let currentGenre = genreLinksIn[c].name
-      let currentLink = genreLinksIn[c].href
+    for (c=0;c<genreLinks.length;c++) {
+      let currentGenre = genreLinks[c].name
+      let currentLink = genreLinks[c].href
       console.log('On Genre: ', currentGenre)
 
       // If the genre has already been saved - skip
@@ -173,7 +152,7 @@ const titleScraper = {
           runningTitles[currentGenre] = filteredHuluList
 
           // Save running list of genre
-          fs.writeFile(`../data/hulu/titles/${typeIn}Titles_running.json`, JSON.stringify(runningTitles), function (err) {
+          fs.writeFile('../data/hulu/titles/huluTitles_running.json', JSON.stringify(runningTitles), function (err) {
             if (err) throw err
             console.log(currentGenre, ' saved!')
           })
@@ -198,6 +177,10 @@ const titleScraper = {
         console.log('Save errors error: ', err)
       }
     })
+  
+    browser.close()
+    await page.waitFor(5*1000)
+    console.log('Finished fetching titles...')
 
     return runningTitles
   },
