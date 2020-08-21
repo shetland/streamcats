@@ -134,10 +134,57 @@
     "imgSrc": "/imgs/the-oa.jpg",
     "cat": "netflix",
     "subheading": "A missing girl reappears in her hometown under circumstances so mysterious that a small group of people she befriends begin questioning the nature of their reality",
-    "review": "A uniquely creative and haunting show that rewards the viewer’s careful attention with a complex story arc spanning 2 seasons. A beautiful mixture of magical realism, science fiction, and drama, this show will tug you by the heartstrings into an ocean of chilling questions that will keep you awake at night.",
+    "review": "A uniquely creative and haunting show that rewards the viewer’s careful attention with a complex story arc spanning 2 seasons. A beautiful mixture of magical realism, science fiction, and drama, The OA will drag you by heartstrings into an ocean of chilling questions that will keep you awake at night.",
     "showAll": false,
     "linkId": "the-oa",
     "imgCred": "© Netflix",
     "date": "07/26/2020"
+  },
+  {
+    "title": "Naked and Afraid XL",
+    "href": "https://www.hulu.com/series/naked-and-afraid-xl-a254911d-9705-459a-aa8c-a8c4fc4d5659",
+    "id": "naked-and-afraid-xl-a254911d-9705-459a-aa8c-a8c4fc4d5659",
+    "year": "2015",
+    "rating": "TV14",
+    "description": "A group of the best survival experts in the world take on an un-survivable situation: 40 days. 40 nights. No food, water or clothes. To survive they’ll need to master the environment, pushing far beyond the breaking point. Will even one be able to finish?",
+    "starring": "",
+    "imdbScore": "7.3",
+    "imdbHref": "https://www.imdb.com/title/tt4791250/",
+    "subgenres": [
+      "Adventure",
+      "Documentaries",
+      "Reality",
+      "Science & Technology"
+    ],
+    "imgSrc": "/imgs/naked-and-afraid-xl.jpg",
+    "cat": "hulu",
+    "subheading": "Watch a group of hardcore survivalist tough it out for 40 days, naked (but tastefully blurred), out in the bush.",
+    "review": "If you want to see the limits of human physical and mental toughness from the safety of your home, this is the show for you. XL is a larger challenge than the original Naked and Afraid show because the contestants have to survive for 40 days out in the wild, and in a group setting. From starvation to challenging social dynamics there is no end to the hell these people go through. If you need a laugh after watching so much suffering, check out the episode with <a href=’https://vimeo.com/114879407’>James Franco and Seth Rogen.</a>",
+    "showAll": false,
+    "linkId": "naked-and-afraid-xl",
+    "imgCred": "© Discovery",
+    "date": "08/02/2020"
+  },
+  {
+    "title": "Halt and Catch Fire",
+    "href": "https://www.netflix.com/title/70302182",
+    "id": "70302182",
+    "year": "2014",
+    "rating": "TV-14",
+    "description": "Re-creating the dawn of the personal computer era, this digital drama tracks the fates of an industry visionary and his brilliant colleagues.",
+    "starring": "Lee Pace, Scoot McNairy, Mackenzie Davis",
+    "imdbScore": "8.4",
+    "imdbHref": "https://www.imdb.com/title/tt2543312/",
+    "subgenres": [
+      "Dramas"
+    ],
+    "imgSrc": "/imgs/halt-and-catch-fire.jpg",
+    "cat": "netflix",
+    "subheading": "Follow the gripping story of a group of pioneers that helped usher in the personal computing era in the 1980s",
+    "review": "Based on actual events in the information technology revolution, but set in the framework of a fast moving story with larger than life characters, this show is a powerful reminder of the rapidly changing technology world and the intense struggles of the people who forge it. A software engineer, two computer engineers, and a fast talking salesman join forces to do what seems impossible – build a computer that is twice as fast and half the cost of what’s currently on the market.",
+    "showAll": false,
+    "linkId": "halt-and-catch-fire",
+    "imgCred": "© AMC",
+    "date": "08/09/2020"
   }
 ]
