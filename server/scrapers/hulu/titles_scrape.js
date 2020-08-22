@@ -12,6 +12,10 @@ const titleScraper = {
       width: 1000,
       height: 800
     })
+
+    // Login:
+    await titleScraper.login(page)
+    
     try{
       // get the current genre links
       const tvGenresRaw = fs.readFileSync(`../data/hulu/current/tvGenres.json`)
@@ -76,9 +80,6 @@ const titleScraper = {
 
     const titleErrorsRaw = fs.readFileSync('../data/hulu/titles/titleErrors_running.json') // is list
     let titleErrors = JSON.parse(titleErrorsRaw)
-
-    // Login:
-    await titleScraper.login(page)
 
     // For each genre link
     for (c=0;c<genreLinksIn.length;c++) {
