@@ -1,7 +1,5 @@
 const puppeteer = require('puppeteer-core')
 const fs = require('fs')
-const tvGenres = ('../data/hulu/current/tvGenres.json')
-const movieGenres = ('../data/hulu/current/movieGenres.json')
 
 const titleScraper = {
   run: async () => {
@@ -14,8 +12,17 @@ const titleScraper = {
       width: 1000,
       height: 800
     })
-
     try{
+      // get the current genre links
+      const tvGenresRaw = fs.readFileSync(`../data/hulu/current/tvGenres.json`)
+      let tvGenres = JSON.parse(tvGenresRaw) // is list
+
+      const movieGenresRaw = fs.readFileSync('../data/hulu/current/tvGenres.json') // is list
+      let movieGenres = JSON.parse(movieGenresRaw)
+
+      console.log(tvGenres)
+      console.log(movieGenres)
+    
       console.log('Fetching movies titles...')
       const movieTitles = await titleScraper.fetchTitles(page, movieGenres, 'movie', dateStr)
       console.log('Saving movies...')
@@ -72,9 +79,6 @@ const titleScraper = {
 
     // Login:
     await titleScraper.login(page)
-
-    // Get genre list:
-    // const genreLinks = await titleScraper.getGenres(page)
 
     // For each genre link
     for (c=0;c<genreLinksIn.length;c++) {
