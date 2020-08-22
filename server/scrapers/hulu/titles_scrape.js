@@ -17,7 +17,7 @@ const titleScraper = {
       const tvGenresRaw = fs.readFileSync(`../data/hulu/current/tvGenres.json`)
       let tvGenres = JSON.parse(tvGenresRaw) // is list
 
-      const movieGenresRaw = fs.readFileSync('../data/hulu/current/tvGenres.json') // is list
+      const movieGenresRaw = fs.readFileSync('../data/hulu/current/movieGenres.json') // is list
       let movieGenres = JSON.parse(movieGenresRaw)
 
       console.log(tvGenres)
