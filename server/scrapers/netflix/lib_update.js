@@ -6,6 +6,7 @@ const libUpdate = {
     // Load new titles
     const movieObjRaw = fs.readFileSync('../data/netflix/titles/movieTitles.json') // is obj
     const movieObj = JSON.parse(movieObjRaw)
+    console.log('New movie obj action has:\t ', movieObj["Action"].length, ' titles...')
 
     const tvObjRaw = fs.readFileSync('../data/netflix/titles/tvTitles.json') // is obj
     const tvObj = JSON.parse(tvObjRaw)
@@ -22,8 +23,8 @@ const libUpdate = {
     const tvTitles = libUpdate.populateDetails(tvWithGenres, updatedLib, 'tv')
 
     // Separate movie and tv types for Black Stories until Netflix fixes this 
-    const movieTitlesFix = libUpdate.populateDetails(movieTitles , 'movie')
-    const tvTitlesFix = libUpdate.populateDetails(tvTitles, 'tv')
+    const movieTitlesFix = libUpdate.separateTypes(movieTitles , 'movie')
+    const tvTitlesFix = libUpdate.separateTypes(tvTitles, 'tv')
 
     console.log('Saving...')
     try {
@@ -109,32 +110,37 @@ const libUpdate = {
 
     for(d=0; d<deltaList.length; d++) {
       let dTitle = deltaList[d]
-      if(title.type === 'movie') {
+      if(dTitle.type === 'movie') {
         for(let g=0; g<movieKeys.length; g++) {
           let gArray = movieObj[movieKeys[g]]
           for(let m=0; m<gArray.length; m++) {
             let mTitle = gArray[m]
             if(dTitle.id === mTitle.id) {
               dTitle.subgenres = mTitle.subgenres
-              newDelta.push(dTitle)
+              //if the title isn't already in the new delta
+              if(!newDelta.some((title) => {return title.id === dTitle.id})) {
+                newDelta.push(dTitle)
+              }
             }
           }
         }
       }
-      if(title.type === 'tv') {
+      if(dTitle.type === 'tv') {
         for(let g=0; g<tvKeys.length; g++) {
           let gArray = tvObj[tvKeys[g]]
           for(let t=0; t<gArray.length; t++) {
             let tvTitle = gArray[t]
             if(dTitle.id === tvTitle.id) {
               dTitle.subgenres = tvTitle.subgenres
-              newDelta.push(dTitle)
+              //if the title isn't already in the new delta
+              if(!newDelta.some((title) => {return title.id === dTitle.id})) {
+                newDelta.push(dTitle)
+              }
             }
           }
         }
       }
-    }
-
+    } 
     console.log('Delta titles with subgenres is: ', newDelta.length)
 
     for(let i=0; i<newDelta.length; i++){
@@ -182,6 +188,7 @@ const libUpdate = {
   separateTypes: (objIn, typeIn) => {
     let editArray = []
     let genreArray = objIn["Black Stories"]
+
     const tvRegex = /(TV-)/
 
     for(let i=0; i<genreArray.length; i++) {
@@ -197,6 +204,7 @@ const libUpdate = {
         }
       }
     }
+
     objIn["Black Stories"] = editArray
 
     return objIn
