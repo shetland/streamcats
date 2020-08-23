@@ -12,8 +12,8 @@ const libUpdate = {
     const tvObj = JSON.parse(tvObjRaw)
 
     // Populate subgenres
-    const moviesWithGenres = libUpdate.populateSubgenres(movieObj)
-    const tvWithGenres = libUpdate.populateSubgenres(tvObj)
+    const moviesWithGenres = libUpdate.populateSubgenres(movieObj, tvObj)
+    const tvWithGenres = libUpdate.populateSubgenres(tvObj, movieObj)
 
     // Update lib
     const updatedLib = libUpdate.updateLib(moviesWithGenres, tvWithGenres, dateStr)
@@ -50,10 +50,12 @@ const libUpdate = {
       if (err) throw err
     }
   },
-  populateSubgenres: (objIn) => {
+  populateSubgenres: (objIn, objIn2) => {
     // get all genres in object
     let genreKeys = Object.keys(objIn)
+    let genreKeys2 = Object.keys(objIn2)
     let objOut = {}
+
     // for each genre
     genreKeys.forEach((genre) => {
       let genreArray = objIn[genre]
@@ -63,7 +65,7 @@ const libUpdate = {
         let subgenreList = []
         
         genreKeys.forEach((check) => {
-          // if the current genrecheck array contains a title with the same link
+          // if the current genrecheck array contains a title with the same id
           if ( objIn[check].some(obj => obj.id === titleId) ){
             subgenreList.push(check)
           }
@@ -76,6 +78,35 @@ const libUpdate = {
       // update object in with the new array
       objOut[genre] = genreArray
     })
+
+    // Now cycle through titles again an pull any subgenres
+    // from the other media obj
+    genreKeys.forEach((genre) => {
+      let genreArray = objOut[genre]
+      // for each title in the genre
+      genreArray.forEach((title, index) => {
+        let titleId = title.id
+        let subgenreList = title.subgenres
+        
+        genreKeys2.forEach((check) => {
+          // if the current genrecheck array contains a title with the same id
+          if (objIn2[check].some(obj => obj.id === titleId) ){
+            //and the subgenre is not in the current list
+            if(!subgenreList.includes(check)) {
+              //add to the list
+              subgenreList.push(check)
+            }
+          }
+        })
+        // Update the subgenre list in title
+        title['subgenres'] = subgenreList
+        // updated the title at the current index
+        genreArray[index] = title
+      })
+      // update object in with the new array
+      objOut[genre] = genreArray
+    })
+    
     return objOut
   },
   updateLib: (movieObj, tvObj, dateIn) => {
