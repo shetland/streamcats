@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 const libUpdate = {
-  run: () => {
+  run: async () => {
     const dateStr = new Date().toISOString().substring(0,19).split(':').join('-')
     // Load new titles
     const movieObjRaw = fs.readFileSync('../data/netflix/titles/movieTitles.json') // is obj
@@ -80,6 +80,7 @@ const libUpdate = {
       // update object in with the new array
       objOut[genre] = genreArray
     })
+    console.log('black stories: ', objOut["Black Stories"])
     return objOut
   },
   updateLib: (movieObj, tvObj, dateIn) => {
