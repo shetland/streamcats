@@ -41,8 +41,8 @@
       <template v-slot:default="props">
         <v-expansion-panels focusable accordion>
           <v-expansion-panel
-            v-for="item in props.items"
-            :key="item.title"
+            v-for="(item) in props.items"
+            :key="item.id"
           >
             <v-expansion-panel-header hide-actions>
               <v-container fluid class='titleContainer'>

@@ -8,7 +8,7 @@
         <span class="navBtn">PICKS</span> 
         <v-icon>mdi-heart-circle-outline</v-icon>
       </v-btn>
-      <v-btn to="/" small icon>
+      <v-btn @click='scrollToTop' to="/" small icon>
         <span>
           <CatHead class="catHead"></CatHead>
         </span>
@@ -54,7 +54,10 @@ export default {
       } else {
         return this.btnColors[this.activeBtn]
       }
-    }
+    },
+    scrollToTop () {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    },
   },
   watch: {
     darkTheme (newTheme) {

@@ -25,12 +25,16 @@ const libUpdate = {
     const movieTitlesFix = libUpdate.separateTypes(movieTitles , 'movie')
     const tvTitlesFix = libUpdate.separateTypes(tvTitles, 'tv')
 
+    // Clean any dupes that may be lurking in the same genre under different ids - Netflix is bad about this
+    const movieTitlesClean = libUpdate.cleanAnyDuplicates(movieTitlesFix)
+    const tvTitlesClean = libUpdate.cleanAnyDuplicates(tvTitlesFix)
+
     console.log('Saving...')
     try {
-      fs.writeFileSync('../data/netflix/current/movieData.json', JSON.stringify(movieTitlesFix))
+      fs.writeFileSync('../data/netflix/current/movieData.json', JSON.stringify(movieTitlesClean))
       console.log('Movie data saved!')
 
-      fs.writeFileSync('../data/netflix/current/tvData.json', JSON.stringify(tvTitlesFix))
+      fs.writeFileSync('../data/netflix/current/tvData.json', JSON.stringify(tvTitlesClean))
       console.log('Tv data saved!')
 
       fs.writeFileSync('../data/netflix/lib/netflix_lib.json', JSON.stringify(updatedLib))
@@ -194,6 +198,24 @@ const libUpdate = {
     })
     
     return libOut
+  },
+  cleanAnyDuplicates(objIn) {
+    let genreKeys = Object.keys(objIn)
+    let objOut = {}
+
+    genreKeys.forEach((genre) => {
+      let genreArray = objIn[genre]
+      let filteredArray = libUpdate.removeDuplicates(genreArray, 'title', 'description')
+      objOut[genre] = filteredArray
+    })
+    return objOut
+  },
+  removeDuplicates: (array, key1, key2) => {
+    return array.filter((obj, index, self) =>
+      index === self.findIndex((el) => (
+        el[key1] === obj[key1] && el[key2] === obj[key2]
+      ))
+    )
   },
   populateDetails: (objIn, libIn) => {
     const genreKeys = Object.keys(objIn)
