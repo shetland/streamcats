@@ -9,8 +9,7 @@
     "imdbScore": "8.5",
     "imdbHref": "https://www.imdb.com/title/tt7908628/",
     "subgenres": [
-      "Comedy",
-      "Audio Description"
+      "Comedy"
     ],
     "imgSrc": "/imgs/what-we-do-in-the-shadows.jpg",
     "cat": "hulu",
@@ -186,5 +185,99 @@
     "linkId": "halt-and-catch-fire",
     "imgCred": "© AMC",
     "date": "08/09/2020"
+  },
+  {
+    "title": "Broad City",
+    "href": "https://www.hulu.com/series/broad-city-25fd484f-f2e1-43ff-a671-afd13d095690",
+    "id": "broad-city-25fd484f-f2e1-43ff-a671-afd13d095690",
+    "year": "2014",
+    "rating": "TV14",
+    "description": "A bottle of wine tastes just as good when you pay with all pennies. That's a fact. And no matter what the city throws at twenty-somethings Abbi and Ilana, these broads are all in. Catch the totally fresh, new series based on the acclaimed digital shorts.",
+    "starring": "",
+    "imdbScore": "8.4",
+    "imdbHref": "https://www.imdb.com/title/tt2578560/",
+    "subgenres": [
+      "Comedy",
+      "Sitcom"
+    ],
+    "imgSrc": "/imgs/broad-city.jpg",
+    "cat": "hulu",
+    "subheading": "Watch Abby and Illana, 2 Jewish queens, take on life in New York City",
+    "review": "If you’ve ever struggled to make it in the city as a 20 (or 30) something, this show will likely slam your funny bone into the pavement. Broad City is weird, crude, and imaginative in the best way, but it also manages to be a surprisingly realistic portrayal of urban life for young people. You’ll feel for Abby as she tries to get her art career off the ground as much as you’ll laugh at Illana’s wild escapades. In dealing with roommates to shit buckets, their powerful friendship is what keeps these two women going.",
+    "showAll": false,
+    "linkId": "broad-city",
+    "imgCred": "© Comedy Central",
+    "date": "08/16/2020"
+  },
+  {
+    "title": "The End of the F***ing World",
+    "href": "https://www.netflix.com/title/80175722",
+    "id": "80175722",
+    "year": "2017",
+    "rating": "TV-MA",
+    "description": "A budding teen psychopath and a rebel hungry for adventure embark on a star-crossed road trip in this darkly comic series based on a graphic novel.",
+    "starring": "Jessica Barden, Alex Lawther, Naomi Ackie",
+    "imdbScore": "8.1",
+    "imdbHref": "https://www.imdb.com/title/tt6257970/",
+    "subgenres": [
+      "British",
+      "Comedies",
+      "Dramas",
+      "Teen"
+    ],
+    "imgSrc": "/imgs/the-fng-end-of-the-world.jpg",
+    "cat": "netflix",
+    "subheading": "A mentally disturbed boy and a rebellious teenage girl embark on a road trip to spite their parents, but quickly find themselves in way over their heads",
+    "review": "James, who may be a psychopath, and Alyssa, who’s tired of her parents’ BS, seem like an unlikely duo, but they slowly build a human connection (possibly through trauma) on an adventure of a lifetime. Dark, poignant, and sadistically funny, the fantastic storytelling in this coming of age story will leave a deep and lasting impression on you.",
+    "showAll": false,
+    "linkId": "the-fng-end-of-the-world",
+    "imgCred": "© Netflix",
+    "date": "08/20/2020"
+  },
+  {
+    "title": "Brassic",
+    "href": "https://www.hulu.com/series/brassic-a5fbeb9e-5cfc-42c1-b705-8ff3d13940a6",
+    "id": "brassic-a5fbeb9e-5cfc-42c1-b705-8ff3d13940a6",
+    "type": "tv",
+    "year": "2019",
+    "rating": "NR",
+    "description": "Vinnie, a Lancashire lad with bipolar disorder, and Dylan, his razor-smart best mate, are inseparable and utterly co-dependant. But Dylan's girlfriend Erin might just shake things up for good with her plans to leave town and start a new life for herself and her kid, Tyler. Dylan is faced with the impossible decision between a fresh start with the love of his life or staying behind with his inseparable gang of mates that he can't live without.",
+    "starring": "",
+    "imdbScore": "8.3",
+    "imdbHref": "https://www.imdb.com/title/tt9174582/",
+    "subgenres": [
+      "Comedy"
+    ],
+    "imgSrc": "/imgs/brassic.jpg",
+    "cat": "hulu",
+    "subheading": "Brassic is a complex and outrageously funny tale about a bipolar man that ropes his group of friends into committing crimes with him, and has to deal with the consequences",
+    "review": "Vinnie lives in a shack in the woods and is following in his father’s footsteps in a life of small town crime. With his best friend Dylan, a professional card counter, Vinnie and his tribe of friends attempt to mastermind a series of petty crimes with very mixed results. On top of being a fantastic comedy, Brassic is also a touching story about the strength of friendship in the midst of struggle, and is one of the few accurate depictions of mental health issues on television.",
+    "showAll": false,
+    "linkId": "brassic",
+    "imgCred": "© Sky",
+    "date": "08/23/2020"
+  },
+  {
+    "title": "Extras",
+    "href": "https://www.netflix.com/title/70157434",
+    "id": "70157434",
+    "year": "2005",
+    "rating": "TV-MA",
+    "description": "Grasping hungrily for stardom, bit actor Andy Millman and his pal Maggie spend their days chasing after work as film and TV extras.",
+    "starring": "Ricky Gervais, Ashley Jensen, Stephen Merchant",
+    "imdbScore": "8.3",
+    "imdbHref": "https://www.imdb.com/title/tt0445114/",
+    "subgenres": [
+      "British",
+      "Comedies"
+    ],
+    "imgSrc": "/imgs/extras.jpg",
+    "cat": "netflix",
+    "subheading": "Two extras that work on the sets of big name stars, do everything they can to get their faces somewhere in the background or a line in the script",
+    "review": "Andy Millmen and his loyal friend Maggie are desperate to catch a break and become ‘real actors’ as they face the disappointment and embarrassment of clawing for stardom. Success hungry Andy and the more relaxed but unfortunately loose tongued Maggie get themselves into such awkward situations that you can’t help but laugh. The writing and acting in this show is top shelf and it has a stellar list of guest stars for Andy to be jealous of.",
+    "showAll": false,
+    "linkId": "extras",
+    "imgCred": "© HBO",
+    "date": "08/26/2020"
   }
 ]
