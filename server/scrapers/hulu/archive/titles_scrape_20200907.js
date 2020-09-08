@@ -94,38 +94,79 @@ const titleScraper = {
           await page.waitFor(5*1000);
           await titleScraper.autoScroll(page);
 
-          // get all items on current page in list
-          let titlesOnPageList = await page.evaluate(()=>{
-            let objList = []
-            let selector = '.StandardEmphasisHorizontalTileThumbnail__image'
-            let titlesOnPage = document.querySelectorAll(selector)
-              
-            for (i=0;i<titlesOnPage.length;i++) {
-              let currentObj = {}
-              let title = ''
-              let id = ''
-              let periodTitle = titlesOnPage[i].alt.split('Cover art for ')[1] // could also get this (or overwrite) in detail scrape
-              let newTitle = periodTitle.replace(/\.$/, '') // remove period from the end of titles
-              let beforeQuest = titlesOnPage[i].src.split('?')[0]
-              let cutId = beforeQuest.split('artwork/')[1]
-              // Remove punctuation from title string and add to id str for real id...
-              // This may be removed at some point, since I think that just the ids without names route to the correct title
-              let titleStr = newTitle.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-").toLowerCase()
-              let realId = titleStr + '-' + cutId
-
-              id = realId
-              title = newTitle
-
-              currentObj.title = title
-              currentObj.id = id
-              objList.push(currentObj)
+          let azRowIndex = await page.evaluate(() => {
+            let index = -1
+            let allRows = document.querySelectorAll('.Hub__collection')
+            for (i=0;i<allRows.length;i++){
+              let text = allRows[i].innerText.slice(0,3)
+              if (text === 'A-Z') {
+                index = i
+                break
+              }
             }
-            return objList
-          })
+            if (index === -1) {
+              console.log('Err: No index for A-Z row on genre')
+            }
+            return index
+          });
 
-          for (j=0;j<titlesOnPageList.length;j++){
-              genreHuluList.push(titlesOnPageList[j])
+          let nextBtnDisabled
+          let genreHuluList = []
+          let pageCounter = 0
+
+          // scroll A-Z list until the end
+          for (pageIndex=0;!nextBtnDisabled;pageIndex++) {
+            console.log('   On page: ', pageCounter)
+
+            // Check for the next button disable
+            nextBtnDisabled = await page.evaluate((rowIndex) => {
+              let selector = `.Hub__collection:nth-child(${rowIndex + 1}) > div > div[data-testid="slider"] > button[data-testid="slider-next"]`
+              let correctBtn = document.querySelector(selector)
+              return correctBtn.disabled
+            }, azRowIndex)
+
+            // get all items on current page in list
+            let titlesOnPageList = await page.evaluate(()=>{
+              let objList = []
+              let selector = 'ul[aria-label = "A-Z"] > li > div > div > figure > div > button > div > img'
+              let titlesOnPage = document.querySelectorAll(selector);
+                
+              for (i=0;i<titlesOnPage.length;i++) {
+                let currentObj = {}
+                let title = ''
+                let id = ''
+                let periodTitle = titlesOnPage[i].alt.split('Cover art for ')[1] // could also get this (or overwrite) in detail scrape
+                let newTitle = periodTitle.replace(/\.$/, '') // remove period from the end of titles
+                let beforeQuest = titlesOnPage[i].src.split('?')[0]
+                let cutId = beforeQuest.split('artwork/')[1]
+                // Remove punctuation from title string and add to id str for real id...
+                // This may be removed at some point, since I think that just the ids without names route to the correct title
+                let titleStr = newTitle.replace(/[^\w\s]|_/g, "").replace(/\s+/g, "-").toLowerCase()
+                let realId = titleStr + '-' + cutId
+
+                id = realId
+                title = newTitle
+
+                currentObj.title = title
+                currentObj.id = id
+                objList.push(currentObj)
+              }
+              return objList
+            })
+
+            for (j=0;j<titlesOnPageList.length;j++){
+                genreHuluList.push(titlesOnPageList[j])
+            }
+            // Set random page wait time from 2-3 seconds
+            // let pageWait = Math.floor(Math.random() * 2) + 2;
+            await page.waitFor(1000);
+
+            // click to the next page
+            let btnSelector = `.Hub__collection:nth-child(${azRowIndex + 1}) > div > div[data-testid="slider"] > button[data-testid="slider-next"]`
+            await page.click(btnSelector)
+            pageCounter++
           }
+          console.log('Exited button clicking loop\n\n')
 
           // filter array for only unique titles in genre
           const filteredHuluList = genreHuluList.filter((item, index, self) =>
@@ -207,14 +248,12 @@ const titleScraper = {
   },
   autoScroll: async (page) => {
     await page.evaluate(async () => {
-      //this is because hulu is a little bitch
-      let scroller = document.querySelector('#LevelTwo__scroll-area')
       await new Promise((resolve) => {
         let totalHeight = 0
         let distance = 60
         let timer = setInterval(() => {
           let scrollHeight = document.body.scrollHeight;
-          scroller.scrollBy(0, distance);
+          window.scrollBy(0, distance);
           totalHeight += distance;
 
           if(totalHeight >= scrollHeight){
