@@ -91,8 +91,8 @@ const titleScraper = {
       if ( !runningTitles[currentGenre] ) {
         try{
           await page.goto(`${currentLink}`)
-          await page.waitFor(5*1000);
-          await titleScraper.autoScroll(page);
+          await page.waitFor(5*1000)
+          await titleScraper.autoScroll(page)
 
           // get all items on current page in list
           let titlesOnPageList = await page.evaluate(()=>{
@@ -123,18 +123,20 @@ const titleScraper = {
             return objList
           })
 
-          for (j=0;j<titlesOnPageList.length;j++){
-              genreHuluList.push(titlesOnPageList[j])
-          }
+          console.log('Found ', titlesOnPageList.length, ' titles on page')
 
           // filter array for only unique titles in genre
-          const filteredHuluList = genreHuluList.filter((item, index, self) =>
+          const filteredHuluList = titlesOnPageList.filter((item, index, self) =>
             index === self.findIndex((t) => (
               t.id === item.id
             ))
           )
+
+          console.log('With ', filteredHuluList.length, ' unique titles')
+          console.log('Saving...')
           // save into th hulu objects
           runningTitles[currentGenre] = filteredHuluList
+          await page.waitFor(2*1000)
 
           // Save running list of genre
           fs.writeFile(`../data/hulu/titles/${typeIn}Titles_running.json`, JSON.stringify(runningTitles), function (err) {
