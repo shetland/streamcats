@@ -213,18 +213,18 @@ const titleScraper = {
       let scroller = document.querySelector('#LevelTwo__scroll-area')
       await new Promise((resolve) => {
         let totalHeight = 0
-        let distance = 100
+        let distance = 42
         let timer = setInterval(() => {
-          let scrollHeight = document.body.scrollHeight;
-          scroller.scrollBy(0, distance);
-          totalHeight += distance;
-
-          if(totalHeight >= scrollHeight){
+          let scrollHeight = scroller.scrollHeight;
+          scroller.scrollBy(0, distance)
+          totalHeight += distance
+          if(totalHeight >= scrollHeight + 300){
             clearInterval(timer);
             resolve();
           }
-        }, 300)
+        }, 100)
       })
+      console.log('done scrolling')
     })
   }
 }
