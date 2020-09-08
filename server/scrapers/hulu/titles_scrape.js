@@ -218,11 +218,11 @@ const titleScraper = {
           let scrollHeight = scroller.scrollHeight;
           scroller.scrollBy(0, distance)
           totalHeight += distance
-          if(totalHeight >= scrollHeight + 300){
+          if(totalHeight >= scrollHeight + 2000){
             clearInterval(timer);
             resolve();
           }
-        }, 100)
+        }, 150)
       })
       console.log('done scrolling')
     })
