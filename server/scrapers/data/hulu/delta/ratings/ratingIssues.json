@@ -1,1 +1,114 @@
-[{"title":"Aeon Flux","href":"https://www.hulu.com/movie/aeon-flux-f5959624-9cd6-44fc-a9c3-7d0d2102d2b9","id":"aeon-flux-f5959624-9cd6-44fc-a9c3-7d0d2102d2b9","year":"2005","imdbTitle":"Æon Flux (2005)","imdbHref":"https://www.imdb.com/title/tt0402022/"},{"title":"The Mechanic","href":"https://www.hulu.com/movie/the-mechanic-31842f35-125a-4e22-a1c2-93338d125132","id":"the-mechanic-31842f35-125a-4e22-a1c2-93338d125132","year":"1972","imdbTitle":"","imdbHref":"https://www.imdb.com/title/tt0068931/trivia"},{"title":"Broken Lizard's Club Dread","href":"https://www.hulu.com/movie/broken-lizards-club-dread-4412ceab-3c92-4e97-b10d-fa88344db530","id":"broken-lizards-club-dread-4412ceab-3c92-4e97-b10d-fa88344db530","year":"2004","imdbTitle":"Club Dread (2004)","imdbHref":"https://www.imdb.com/title/tt0331953/"},{"title":"The Twilight Saga: Breaking Dawn, Part 1","href":"https://www.hulu.com/movie/the-twilight-saga-breaking-dawn-part-1-4991b563-11ab-43c5-ac70-de7ca1ac2952","id":"the-twilight-saga-breaking-dawn-part-1-4991b563-11ab-43c5-ac70-de7ca1ac2952","year":"2011","imdbTitle":"","imdbHref":"https://www.imdb.com/title/tt1324999/releaseinfo"},{"title":"The Twilight Saga: Breaking Dawn, Part 2","href":"https://www.hulu.com/movie/the-twilight-saga-breaking-dawn-part-2-75d019e0-5021-4583-95fb-52f4ea08cb49","id":"the-twilight-saga-breaking-dawn-part-2-75d019e0-5021-4583-95fb-52f4ea08cb49","year":"2012","imdbTitle":"The Twilight Saga: Breaking Dawn - Part 2 (2012)","imdbHref":"https://www.imdb.com/title/tt1673434/"},{"title":"Megalobox","href":"https://www.hulu.com/series/megalobox-21675797-0897-44bf-969a-fe5045296ada","id":"megalobox-21675797-0897-44bf-969a-fe5045296ada","year":"2018","imdbTitle":"Megalo Box ","imdbHref":"https://www.imdb.com/title/tt7965802/"},{"title":"Odeon","href":"https://www.hulu.com/series/odeon-c226d6d5-5ea1-4505-a7d7-3ada68ff6061","id":"odeon-c226d6d5-5ea1-4505-a7d7-3ada68ff6061","year":"2020","imdbTitle":"","imdbHref":"https://www.imdb.com/list/ls097061774/"},{"title":"Sad Day","href":"https://www.hulu.com/series/sad-day-7b7535dc-d67d-4a11-acac-03f26c0298af","id":"sad-day-7b7535dc-d67d-4a11-acac-03f26c0298af","year":"2020","imdbTitle":"First Day ","imdbHref":"https://www.imdb.com/title/tt10614090/"},{"title":"Bucket List Bistro","href":"https://www.hulu.com/series/bucket-list-bistro-be1ac062-95b1-4d0c-9ec4-45a92de6ef28","id":"bucket-list-bistro-be1ac062-95b1-4d0c-9ec4-45a92de6ef28","year":"2020","imdbTitle":"Episode #1.2 ","imdbHref":"https://www.imdb.com/title/tt13044508/"},{"title":"Vacation In Place","href":"https://www.hulu.com/series/vacation-in-place-7dc45f4a-e2a4-4486-9ad3-9f4064536b90","id":"vacation-in-place-7dc45f4a-e2a4-4486-9ad3-9f4064536b90","year":"2020","imdbTitle":"Hightown ","imdbHref":"https://www.imdb.com/title/tt7718110/"},{"title":"ABC News Live","href":"https://www.hulu.com/series/abc-news-live-d7e8aedd-66f2-4337-9ca5-455a9dc97bd3","id":"abc-news-live-d7e8aedd-66f2-4337-9ca5-455a9dc97bd3","year":"","imdbTitle":"","imdbHref":"https://www.imdb.com/news/ni63008668"},{"title":"Chadwick Boseman - A Tribute for a King","href":"https://www.hulu.com/series/chadwick-boseman-a-tribute-for-a-king-1d43bf02-7953-4cc6-b1c1-6abe4db2f305","id":"chadwick-boseman-a-tribute-for-a-king-1d43bf02-7953-4cc6-b1c1-6abe4db2f305","year":"2020","imdbTitle":"Chadwick Boseman: A Tribute for a King ","imdbHref":"https://www.imdb.com/title/tt13003640/"},{"title":"The Republican National Convention -- Your Voice/Your Vote 2020","href":"https://www.hulu.com/series/the-republican-national-convention-your-voiceyour-vote-2020-5eea310c-a6b0-4e8b-ae40-aeddc330be2a","id":"the-republican-national-convention-your-voiceyour-vote-2020-5eea310c-a6b0-4e8b-ae40-aeddc330be2a","year":"2020","imdbTitle":"","imdbHref":"https://www.imdb.com/name/nm2361632/"},{"title":"The Ticket: The First Interview -- A Special Edition of 20/20","href":"https://www.hulu.com/series/the-ticket-the-first-interview-a-special-edition-of-2020-1dc2ecad-022a-48c6-8c5a-a628efae3221","id":"the-ticket-the-first-interview-a-special-edition-of-2020-1dc2ecad-022a-48c6-8c5a-a628efae3221","year":"2020","imdbTitle":"","imdbHref":"https://en.wikipedia.org/wiki/20/20_(American_TV_program)"}]
+[
+  {
+    "title": "Aeon Flux",
+    "href": "https://www.hulu.com/movie/aeon-flux-f5959624-9cd6-44fc-a9c3-7d0d2102d2b9",
+    "id": "aeon-flux-f5959624-9cd6-44fc-a9c3-7d0d2102d2b9",
+    "year": "2005",
+    "imdbTitle": "Æon Flux (2005)",
+    "imdbHref": "https://www.imdb.com/title/tt0402022/"
+  },
+  {
+    "title": "The Mechanic",
+    "href": "https://www.hulu.com/movie/the-mechanic-31842f35-125a-4e22-a1c2-93338d125132",
+    "id": "the-mechanic-31842f35-125a-4e22-a1c2-93338d125132",
+    "year": "1972",
+    "imdbTitle": "",
+    "imdbHref": "https://www.imdb.com/title/tt0068931/trivia"
+  },
+  {
+    "title": "Broken Lizard's Club Dread",
+    "href": "https://www.hulu.com/movie/broken-lizards-club-dread-4412ceab-3c92-4e97-b10d-fa88344db530",
+    "id": "broken-lizards-club-dread-4412ceab-3c92-4e97-b10d-fa88344db530",
+    "year": "2004",
+    "imdbTitle": "Club Dread (2004)",
+    "imdbHref": "https://www.imdb.com/title/tt0331953/"
+  },
+  {
+    "title": "The Twilight Saga: Breaking Dawn, Part 1",
+    "href": "https://www.hulu.com/movie/the-twilight-saga-breaking-dawn-part-1-4991b563-11ab-43c5-ac70-de7ca1ac2952",
+    "id": "the-twilight-saga-breaking-dawn-part-1-4991b563-11ab-43c5-ac70-de7ca1ac2952",
+    "year": "2011",
+    "imdbTitle": "",
+    "imdbHref": "https://www.imdb.com/title/tt1324999/releaseinfo"
+  },
+  {
+    "title": "The Twilight Saga: Breaking Dawn, Part 2",
+    "href": "https://www.hulu.com/movie/the-twilight-saga-breaking-dawn-part-2-75d019e0-5021-4583-95fb-52f4ea08cb49",
+    "id": "the-twilight-saga-breaking-dawn-part-2-75d019e0-5021-4583-95fb-52f4ea08cb49",
+    "year": "2012",
+    "imdbTitle": "The Twilight Saga: Breaking Dawn - Part 2 (2012)",
+    "imdbHref": "https://www.imdb.com/title/tt1673434/"
+  },
+  {
+    "title": "Megalobox",
+    "href": "https://www.hulu.com/series/megalobox-21675797-0897-44bf-969a-fe5045296ada",
+    "id": "megalobox-21675797-0897-44bf-969a-fe5045296ada",
+    "year": "2018",
+    "imdbTitle": "Megalo Box ",
+    "imdbHref": "https://www.imdb.com/title/tt7965802/"
+  },
+  {
+    "title": "Odeon",
+    "href": "https://www.hulu.com/series/odeon-c226d6d5-5ea1-4505-a7d7-3ada68ff6061",
+    "id": "odeon-c226d6d5-5ea1-4505-a7d7-3ada68ff6061",
+    "year": "2020",
+    "imdbTitle": "",
+    "imdbHref": "https://www.imdb.com/list/ls097061774/"
+  },
+  {
+    "title": "Sad Day",
+    "href": "https://www.hulu.com/series/sad-day-7b7535dc-d67d-4a11-acac-03f26c0298af",
+    "id": "sad-day-7b7535dc-d67d-4a11-acac-03f26c0298af",
+    "year": "2020",
+    "imdbTitle": "First Day ",
+    "imdbHref": "https://www.imdb.com/title/tt10614090/"
+  },
+  {
+    "title": "Bucket List Bistro",
+    "href": "https://www.hulu.com/series/bucket-list-bistro-be1ac062-95b1-4d0c-9ec4-45a92de6ef28",
+    "id": "bucket-list-bistro-be1ac062-95b1-4d0c-9ec4-45a92de6ef28",
+    "year": "2020",
+    "imdbTitle": "Episode #1.2 ",
+    "imdbHref": "https://www.imdb.com/title/tt13044508/"
+  },
+  {
+    "title": "Vacation In Place",
+    "href": "https://www.hulu.com/series/vacation-in-place-7dc45f4a-e2a4-4486-9ad3-9f4064536b90",
+    "id": "vacation-in-place-7dc45f4a-e2a4-4486-9ad3-9f4064536b90",
+    "year": "2020",
+    "imdbTitle": "Hightown ",
+    "imdbHref": "https://www.imdb.com/title/tt7718110/"
+  },
+  {
+    "title": "ABC News Live",
+    "href": "https://www.hulu.com/series/abc-news-live-d7e8aedd-66f2-4337-9ca5-455a9dc97bd3",
+    "id": "abc-news-live-d7e8aedd-66f2-4337-9ca5-455a9dc97bd3",
+    "year": "",
+    "imdbTitle": "",
+    "imdbHref": "https://www.imdb.com/news/ni63008668"
+  },
+  {
+    "title": "Chadwick Boseman - A Tribute for a King",
+    "href": "https://www.hulu.com/series/chadwick-boseman-a-tribute-for-a-king-1d43bf02-7953-4cc6-b1c1-6abe4db2f305",
+    "id": "chadwick-boseman-a-tribute-for-a-king-1d43bf02-7953-4cc6-b1c1-6abe4db2f305",
+    "year": "2020",
+    "imdbTitle": "Chadwick Boseman: A Tribute for a King ",
+    "imdbHref": "https://www.imdb.com/title/tt13003640/"
+  },
+  {
+    "title": "The Republican National Convention -- Your Voice/Your Vote 2020",
+    "href": "https://www.hulu.com/series/the-republican-national-convention-your-voiceyour-vote-2020-5eea310c-a6b0-4e8b-ae40-aeddc330be2a",
+    "id": "the-republican-national-convention-your-voiceyour-vote-2020-5eea310c-a6b0-4e8b-ae40-aeddc330be2a",
+    "year": "2020",
+    "imdbTitle": "",
+    "imdbHref": "https://www.imdb.com/name/nm2361632/"
+  },
+  {
+    "title": "The Ticket: The First Interview -- A Special Edition of 20/20",
+    "href": "https://www.hulu.com/series/the-ticket-the-first-interview-a-special-edition-of-2020-1dc2ecad-022a-48c6-8c5a-a628efae3221",
+    "id": "the-ticket-the-first-interview-a-special-edition-of-2020-1dc2ecad-022a-48c6-8c5a-a628efae3221",
+    "year": "2020",
+    "imdbTitle": "",
+    "imdbHref": "https://en.wikipedia.org/wiki/20/20_(American_TV_program)"
+  }
+]

@@ -57,6 +57,11 @@ const detailScraper = {
 
           // 2-3. Evaluate the page to pull details
           let newObject = await page.evaluate(() => {
+            let titleName = ''
+            let titleBool = document.querySelector('.title-title') !== null
+            if (titleBool){
+              titleName = document.querySelector('.title-title').innerText
+            }
             let year = ''
             let yearBool = document.querySelector(`span.title-info-metadata-item:nth-child(1)`) !== null
             if (yearBool){
@@ -79,6 +84,7 @@ const detailScraper = {
             }
             // 2-4. Return object with extracted details
             return {
+              'title': titleName,
               'year': year,
               'rating': rating,
               'description': description,
