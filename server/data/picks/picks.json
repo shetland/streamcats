@@ -1,5 +1,53 @@
 [
   {
+    "title": "MINDHUNTER",
+    "href": "https://www.netflix.com/title/80114855",
+    "id": "80114855",
+    "year": "2017",
+    "rating": "TV-MA",
+    "description": "In the late 1970s two FBI agents expand criminal science by delving into the psychology of murder and getting uneasily close to all-too-real monsters.",
+    "starring": "Jonathan Groff, Holt McCallany, Anna Torv",
+    "imdbScore": "8.6",
+    "imdbHref": "https://www.imdb.com/title/tt5290382/",
+    "subgenres": [
+      "Crime",
+      "Dramas",
+      "Thriller"
+    ],
+    "imgSrc": "/imgs/mindhunter.jpg",
+    "cat": "netflix",
+    "subheading": "Two behavioral science specialists at the FBI in the 1970s attempt to classify the psychological underpinnings of a new class of criminal – the serial killer",
+    "review": "After realizing the FBI had very little understanding of the motivations behind the most extreme crimes, agents Holden Ford and Bill Tench team up and begin interviewing imprisoned ‘sequence killers’ about their lives and thoughts surrounding their murders. As patterns emerge in their research, the Behavioral Science Unit begins applying what they discover in ongoing investigations.",
+    "showAll": false,
+    "linkId": "mindhunter",
+    "imgCred": "© Netflix",
+    "date": "09/10/2020"
+  },
+  {
+    "title": "Killing Eve",
+    "href": "https://www.hulu.com/series/killing-eve-c9d3b601-54db-42d1-a1ed-8950cea491b1",
+    "id": "killing-eve-c9d3b601-54db-42d1-a1ed-8950cea491b1",
+    "year": "2018",
+    "rating": "TV14",
+    "description": "Villanelle is a psychopathic assassin, and Eve is the woman charged with hunting her down; the two fiercely intelligent women, equally obsessed with each other, go head to head in an epic game of cat and mouse.",
+    "starring": "",
+    "imdbScore": "8.3",
+    "imdbHref": "https://www.imdb.com/title/tt7016936/",
+    "subgenres": [
+      "Action",
+      "Crime",
+      "Drama"
+    ],
+    "imgSrc": "/imgs/killing-eve.jpg",
+    "cat": "hulu",
+    "subheading": "A cat and mouse game between a high profile assassin and a special agent tasked with her capture",
+    "review": "Eve Polastri’s life becomes intertwined with the psychopathic killer Villanelle as she hunts her around the world. Unfortunately, Eve soon discovers that she might be the hunted instead of the hunter. The plot thickens throughout the season and you are often left wondering who can be trusted in this deadly game. This great show’s writing and production quality is as fabulous as Villanelle’s wardrobe.",
+    "showAll": false,
+    "linkId": "killing-eve",
+    "imgCred": "© BBC",
+    "date": "09/02/2020"
+  },
+  {
     "title": "Extras",
     "href": "https://www.netflix.com/title/70157434",
     "id": "70157434",
