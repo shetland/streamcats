@@ -180,7 +180,7 @@ const titleScraper = {
     await page.click('#__next > div > div > div.Modal__dialog.Modal__dialog--visible > div.ProfileSelectorModal__bottom.cu-profileselectormodal-bottom > div > div:nth-child(3) > button')
     await page.waitForNavigation()
     await page.waitFor(5*1000)
-    await page.click('.WelcomeModal__cta') // close annoying popup
+    //await page.click('.WelcomeModal__cta') // close annoying popup
     await page.waitFor(3*1000)
   },
   getGenres: async (page) => {
