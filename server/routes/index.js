@@ -16,8 +16,8 @@ const huluPk = mp.encode({"movies":hmdComp, "tv":htdComp})
 const netflixPk = mp.encode({"movies":nmdComp, "tv":ntdComp})
 
 router.get("/api", function(req, res){
-  // connector.saveConnections(req.connection.remoteAddress)
-	console.log('Got request from: ', req.connection.remoteAddress)
+  connector.saveConnections(req.connection.remoteAddress, 'home')
+	// console.log('Got request from: ', req.connection.remoteAddress)
 	if (req.query.cats === "mlk") {
 		res.send(keyPk)
 	} else {
@@ -26,7 +26,8 @@ router.get("/api", function(req, res){
 });
 
 router.get("/api/:cat", function(req,res){
-	console.log("Got request from: ", req.connection.remoteAddress)
+  connector.saveConnections(req.connection.remoteAddress, req.params.cat)
+	// console.log("Got request from: ", req.connection.remoteAddress)
 	if (req.params.cat === "hulu" || req.params.cat === "netflix") {
 		if (req.params.cat === "hulu" 
 		&& req.query.cats === "mew"){
@@ -42,8 +43,8 @@ router.get("/api/:cat", function(req,res){
 });
 
 router.get("/api/cat/picks", function(req,res){
-  // connector.saveConnections(req.connection.remoteAddress)
-	console.log("Got request from: ", req.connection.remoteAddress)
+  connector.saveConnections(req.connection.remoteAddress, 'picks')
+	// console.log("Got request from: ", req.connection.remoteAddress)
 	res.send(picks)
 });
 
